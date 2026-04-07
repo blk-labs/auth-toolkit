@@ -1,0 +1,28 @@
+{
+  "name": "auth-toolkit",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "dev": "echo \"Run apps individually\""
+  },
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blk-labs/auth-toolkit.git"
+  },
+  "keywords": [],
+  "author": "blk-labs",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/blk-labs/auth-toolkit/issues"
+  },
+  "homepage": "https://github.com/blk-labs/auth-toolkit#readme",
+  "devDependencies": {
+    "tsup": "^8.5.1",
+    "typescript": "^6.0.2"
+  }
+}

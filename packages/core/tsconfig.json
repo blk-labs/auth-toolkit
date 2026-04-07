@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": ".",
+    "baseUrl": ".",
+     "composite": true,
+    "paths": {
+      "@/*": ["./src/*"],
+       "@core/*": ["./src/*"]
+    }
+  },
+  "include": ["src/**/*.ts", "@types/**/*.ts"],
+  "exclude": ["node_modules", "dist", "**/*.test.ts"]
+}
