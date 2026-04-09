@@ -7,9 +7,10 @@
      "composite": true,
     "paths": {
       "@/*": ["./src/*"],
-       "@core/*": ["./src/*"]
+       "@core/*": ["./src/*"],
+       "@auth/types": ["./src/types/index.ts"]
     }
   },
-  "include": ["src/**/*.ts", "@types/**/*.ts"],
+  "include": ["src/**/*.ts", "./src/types/**/*.ts"],
   "exclude": ["node_modules", "dist", "**/*.test.ts"]
 }
