@@ -1,6 +1,7 @@
-import type { AuthListener, AuthState } from "@auth/types";
+import type { AuthListener, AuthState, TokenStore } from "@auth/types";
 
 export class AuthManager<T = unknown> {
+  constructor(private tokenStore: TokenStore) {}
   private state: AuthState<T> = {
     status: "unknown",
     user: null,
@@ -29,26 +30,42 @@ export class AuthManager<T = unknown> {
     this.emit();
   }
 
-  async login(user: T): Promise<void> {
+  async login(user: T, token: string): Promise<void> {
     this.setState({ status: "loading" });
 
     // Auth Logic
+    this.tokenStore.setAccessToken(token);
 
     this.setState({ status: "authenticated", user });
   }
 
   logout(): void {
     this.setState({ status: "unauthenticated", user: null });
+    this.tokenStore.clear();
   }
 
-  async refresh(): Promise<void> {
-    this.setState({ status: "loading" });
+  async refresh(): Promise<string> {
+    try {
+      const newToken = await this.refresh();
+      this.tokenStore.setAccessToken(newToken);
+      this.setState({ status: "loading" });
+      return newToken;
+    } catch (err) {
+      this.logout();
+      throw err;
+    }
   }
-
 
   async bootstrapAuth(): Promise<void> {
     this.setState({ status: "loading" });
-    
-    this.setState({ status: "unauthenticated", user: null });
+
+    const token = this.tokenStore.getAccessToken();
+
+    if (!token) {
+      this.setState({ status: "unauthenticated", user: null });
+      return;
+    }
+
+    this.setState({ status: "authenticated", user: null });
   }
 }
