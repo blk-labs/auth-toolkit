@@ -3,38 +3,45 @@ import { render, screen, act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { AuthProvider } from "../providers/AuthProvider";
 import { useAuth } from "../hooks/useAuth";
-
-// Adjust the import based on your actual core package path
-import type { AuthState } from "../types/core";
+import type { AuthManagerLike } from "../providers/AuthProvider";
 import { vi } from "vitest";
 
-/**
- * Mock AuthManager implementation
- */
 type MockUser = {
   id: string;
   name: string;
   role?: string;
 };
 
-function createMockAuthManager(initialState: AuthState<MockUser>) {
+function createMockAuthManager(
+  initialState: ReturnType<AuthManagerLike<MockUser>["getState"]>
+): AuthManagerLike<MockUser> & {
+  __emit(state: ReturnType<AuthManagerLike<MockUser>["getState"]>): void;
+} {
   let state = initialState;
-  const listeners = new Set<(state: AuthState<MockUser>) => void>();
+  const listeners = new Set<
+    (state: ReturnType<AuthManagerLike<MockUser>["getState"]>) => void
+  >();
 
   return {
     getState: vi.fn(() => state),
 
-    subscribe: vi.fn((listener: (state: AuthState<MockUser>) => void) => {
-      listeners.add(listener);
-      return () => listeners.delete(listener);
-    }),
+    subscribe: vi.fn(
+      (
+        listener: (
+          state: ReturnType<AuthManagerLike<MockUser>["getState"]>
+        ) => void
+      ) => {
+        listeners.add(listener);
+        return () => listeners.delete(listener);
+      }
+    ),
 
     login: vi.fn(),
     logout: vi.fn(),
     refresh: vi.fn(),
     bootstrapAuth: vi.fn(),
 
-    __emit(newState: AuthState<MockUser>) {
+    __emit(newState) {
       state = newState;
       listeners.forEach((listener) => listener(state));
     },
@@ -43,7 +50,8 @@ function createMockAuthManager(initialState: AuthState<MockUser>) {
 
 describe("AuthProvider & useAuth", () => {
   /**
-    useAuth() should throw if used outside AuthProvider
+   * 1. Context Availability
+   * useAuth() should throw if used outside AuthProvider
    */
   it("throws an error when useAuth is used outside AuthProvider", () => {
     const TestComponent = () => {
@@ -62,7 +70,7 @@ describe("AuthProvider & useAuth", () => {
     consoleError.mockRestore();
   });
 
-  
+ 
   it("calls bootstrapAuth on mount", () => {
     const mockManager = createMockAuthManager({
       status: "unauthenticated",
@@ -101,13 +109,9 @@ describe("AuthProvider & useAuth", () => {
       </AuthProvider>
     );
 
-    // Initial state
-    expect(screen.getByTestId("status").textContent).toBe(
-      "unauthenticated"
-    );
+    expect(screen.getByTestId("status").textContent).toBe("unauthenticated");
     expect(screen.getByTestId("username").textContent).toBe("Guest");
 
-    // Simulating authentication
     act(() => {
       mockManager.__emit({
         status: "authenticated",
@@ -115,7 +119,6 @@ describe("AuthProvider & useAuth", () => {
       });
     });
 
-    // Updated state
     expect(screen.getByTestId("status").textContent).toBe("authenticated");
     expect(screen.getByTestId("username").textContent).toBe("Peace");
   });
@@ -160,12 +163,14 @@ describe("AuthProvider & useAuth", () => {
   it("cleans up subscription on unmount", () => {
     const unsubscribe = vi.fn();
 
-    const mockManager = {
-      ...createMockAuthManager({
-        status: "unauthenticated",
-        user: null,
-      }),
-      subscribe: vi.fn(() => unsubscribe),
+    const base = createMockAuthManager({
+      status: "unauthenticated",
+      user: null,
+    });
+
+    const mockManager: AuthManagerLike<MockUser> = {
+      ...base,
+      subscribe: vi.fn(() => unsubscribe()),
     };
 
     const { unmount } = render(

@@ -1,13 +1,23 @@
 import { createContext } from "react";
-import type { AuthState } from "../types/core";
+
+export type AuthStatus =
+  | "unknown"
+  | "loading"
+  | "authenticated"
+  | "unauthenticated";
+
+export interface AuthState<User = unknown> {
+  status: AuthStatus;
+  user: User | null;
+}
 
 export interface AuthContextValue<User = unknown>
   extends AuthState<User> {
-  login: () => Promise<void> | void;
+  login: (user?: User) => Promise<void> | void;
   logout: () => Promise<void> | void;
   refresh: () => Promise<void> | void;
 }
 
-export const AuthContext = createContext<AuthContextValue | undefined>(
+export const AuthContext = createContext<AuthContextValue<unknown> | undefined>(
   undefined
 );

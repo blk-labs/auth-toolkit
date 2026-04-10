@@ -2,10 +2,20 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import { AuthContext, AuthContextValue } from "../context/AuthContext";
-import type { AuthManager, AuthState } from "../types/core";
+import type { AuthState } from "../context/AuthContext";
+
+
+export interface AuthManagerLike<User = unknown> {
+  getState(): { status: AuthState<User>["status"]; user: User | null };
+  subscribe(listener: (state: { status: AuthState<User>["status"]; user: User | null }) => void): () => void;
+  login(user: User): Promise<void>;
+  logout(): void;
+  refresh(): Promise<void>;
+  bootstrapAuth(): Promise<void>;
+}
 
 export interface AuthProviderProps<User = unknown> {
-  authManager: AuthManager<User>;
+  authManager: AuthManagerLike<User>;
   children: React.ReactNode;
 }
 
@@ -33,12 +43,12 @@ export function AuthProvider<User = unknown>({
     () => ({
       status,
       user,
-      login: authManager.login.bind(authManager),
-      logout: authManager.logout.bind(authManager),
-      refresh: authManager.refresh.bind(authManager),
+      login: (user?: User) => authManager.login(user!),
+      logout: () => authManager.logout(),
+      refresh: () => authManager.refresh(),
     }),
     [status, user, authManager]
   );
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={value as AuthContextValue<unknown>}>{children}</AuthContext.Provider>;
 }

@@ -13,7 +13,7 @@
     "types": [],
     "baseUrl": ".",
     "paths": {
-      "@auth/types": ["./packages/core/src/types/auth.ts"],
+      "@auth/types": ["./packages/core/src/types/index.ts"],
       "@core/*": ["./packages/core/src/*"]
     },
 

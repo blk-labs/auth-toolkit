@@ -1,13 +1,15 @@
 {
   "name": "auth-toolkit",
   "private": true,
+  "type": "module",
   "workspaces": [
     "packages/*",
     "apps/*"
   ],
   "scripts": {
     "build": "npm run build --workspaces",
-    "dev": "echo \"Run apps individually\""
+    "test": "npm test -ws --if-present",
+    "test:core": "npm test -w @auth-toolkit/core"
   },
   "description": "",
   "repository": {
@@ -22,7 +24,9 @@
   },
   "homepage": "https://github.com/blk-labs/auth-toolkit#readme",
   "devDependencies": {
+    "@types/node": "^25.5.2",
     "tsup": "^8.5.1",
-    "typescript": "^6.0.2"
+    "typescript": "^6.0.2",
+    "vitest": "^4.1.3"
   }
 }

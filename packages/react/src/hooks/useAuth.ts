@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { AuthContext } from "../context/AuthContext.ts";
+import { AuthContext, AuthContextValue } from "../context/AuthContext";
 
 export function useAuth<User = unknown>() {
   const context = useContext(AuthContext);
@@ -11,5 +11,5 @@ export function useAuth<User = unknown>() {
     );
   }
 
-  return context as typeof context & { user: User | null };
+  return context as AuthContextValue<User>;
 }
