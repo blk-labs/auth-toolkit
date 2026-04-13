@@ -1,7 +1,11 @@
 import type { AuthListener, AuthState, TokenStore } from "@auth/types";
 
 export class AuthManager<T = unknown> {
-  constructor(private tokenStore: TokenStore) {}
+ private tokenStore: TokenStore; 
+
+  constructor(tokenStore: TokenStore) {
+    this.tokenStore = tokenStore;
+  }
   private state: AuthState<T> = {
     status: "unknown",
     user: null,
@@ -40,20 +44,12 @@ export class AuthManager<T = unknown> {
   }
 
   logout(): void {
-    this.setState({ status: "unauthenticated", user: null });
     this.tokenStore.clear();
+    this.setState({ status: "unauthenticated", user: null });
   }
 
-  async refresh(): Promise<string> {
-    try {
-      const newToken = await this.refresh();
-      this.tokenStore.setAccessToken(newToken);
-      this.setState({ status: "loading" });
-      return newToken;
-    } catch (err) {
-      this.logout();
-      throw err;
-    }
+ async updateToken(newToken: string): Promise<void> {
+    this.tokenStore.setAccessToken(newToken);
   }
 
   async bootstrapAuth(): Promise<void> {
