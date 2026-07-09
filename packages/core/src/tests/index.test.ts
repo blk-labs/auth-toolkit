@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { AuthManager } from './index';
+import { AuthManager } from '../index.js';
 
 describe('AuthManager: Test should cover all state transitions', () => {
 let auth: AuthManager;
