@@ -1,0 +1,136 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "firstName": "Emily",
+      "lastName": "Johnson",
+      "email": "emily.johnson@x.dummyjson.com",
+      "username": "emilys",
+      "password": "emilyspass",
+      "image": "https://dummyjson.com/icon/emilys/128",
+      "role": "admin",
+      "company": { "name": "Dooley, Kozey and Cronin", "title": "Sales Manager" }
+    },
+    {
+      "id": 2,
+      "firstName": "Michael",
+      "lastName": "Williams",
+      "email": "michael.williams@x.dummyjson.com",
+      "username": "michaelw",
+      "password": "michaelwpass",
+      "image": "https://dummyjson.com/icon/michaelw/128",
+      "role": "admin",
+      "company": { "name": "Spinka - Dickinson", "title": "Support Specialist" }
+    },
+    {
+      "id": 3,
+      "firstName": "Sophia",
+      "lastName": "Brown",
+      "email": "sophia.brown@x.dummyjson.com",
+      "username": "sophiab",
+      "password": "sophiabpass",
+      "image": "https://dummyjson.com/icon/sophiab/128",
+      "role": "user",
+      "company": { "name": "Schiller - Zieme", "title": "Accountant" }
+    },
+    {
+      "id": 6,
+      "firstName": "Olivia",
+      "lastName": "Wilson",
+      "email": "olivia.wilson@x.dummyjson.com",
+      "username": "oliviaw",
+      "password": "oliviawpass",
+      "image": "https://dummyjson.com/icon/oliviaw/128",
+      "role": "user",
+      "company": { "name": "Pfannerstill Inc", "title": "Research Analyst" }
+    },
+    {
+      "id": 7,
+      "firstName": "Alexander",
+      "lastName": "Jones",
+      "email": "alexander.jones@x.dummyjson.com",
+      "username": "alexanderj",
+      "password": "alexanderjpass",
+      "image": "https://dummyjson.com/icon/alexanderj/128",
+      "role": "user",
+      "company": { "name": "Dickens - Beahan", "title": "Web Developer" }
+    },
+    {
+      "id": 8,
+      "firstName": "Ava",
+      "lastName": "Taylor",
+      "email": "ava.taylor@x.dummyjson.com",
+      "username": "avat",
+      "password": "avatpass",
+      "image": "https://dummyjson.com/icon/avat/128",
+      "role": "user",
+      "company": { "name": "Nikolaus Inc", "title": "Chief Executive Officer" }
+    },
+    {
+      "id": 9,
+      "firstName": "Ethan",
+      "lastName": "Martinez",
+      "email": "ethan.martinez@x.dummyjson.com",
+      "username": "ethanm",
+      "password": "ethanmpass",
+      "image": "https://dummyjson.com/icon/ethanm/128",
+      "role": "user",
+      "company": { "name": "Gorczany - Gottlieb", "title": "Legal Counsel" }
+    },
+    {
+      "id": 16,
+      "firstName": "Avery",
+      "lastName": "Perez",
+      "email": "avery.perez@x.dummyjson.com",
+      "username": "averyp",
+      "password": "averyppass",
+      "image": "https://dummyjson.com/icon/averyp/128",
+      "role": "user",
+      "company": { "name": "Herzog Inc", "title": "Database Administrator" }
+    },
+    {
+      "id": 17,
+      "firstName": "Evelyn",
+      "lastName": "Sanchez",
+      "email": "evelyn.sanchez@x.dummyjson.com",
+      "username": "evelyns",
+      "password": "evelynspass",
+      "image": "https://dummyjson.com/icon/evelyns/128",
+      "role": "user",
+      "company": { "name": "Predovic - Johns", "title": "Chief Financial Officer" }
+    },
+    {
+      "id": 18,
+      "firstName": "Logan",
+      "lastName": "Torres",
+      "email": "logan.torres@x.dummyjson.com",
+      "username": "logant",
+      "password": "logantpass",
+      "image": "https://dummyjson.com/icon/logant/128",
+      "role": "user",
+      "company": { "name": "Jast - Nader", "title": "Data Analyst" }
+    },
+    {
+      "id": 20,
+      "firstName": "Jackson",
+      "lastName": "Evans",
+      "email": "jackson.evans@x.dummyjson.com",
+      "username": "jacksone",
+      "password": "jacksonepass",
+      "image": "https://dummyjson.com/icon/jacksone/128",
+      "role": "user",
+      "company": { "name": "Kuhlman LLC", "title": "Web Developer" }
+    },
+    {
+      "id": 21,
+      "firstName": "Madison",
+      "lastName": "Collins",
+      "email": "madison.collins@x.dummyjson.com",
+      "username": "madisonc",
+      "password": "madisoncpass",
+      "image": "https://dummyjson.com/icon/madisonc/128",
+      "role": "user",
+      "company": { "name": "Mayer - Smitham", "title": "Chief Technology Officer" }
+    }
+  ]
+}

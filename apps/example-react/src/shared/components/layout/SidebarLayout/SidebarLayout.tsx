@@ -25,7 +25,7 @@ export function SidebarLayout({
       {/* Sidebar */}
       <aside
         className={classNames(
-          "hidden md:flex flex-col border-r border-neutral-200 bg-white",
+          "hidden md:flex h-screen flex-col border-r border-gray bg-secondary",
           sidebarWidth
         )}
       >
@@ -33,7 +33,7 @@ export function SidebarLayout({
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 p-6">
+      <main className="flex-1  p-4 py-6">
         {children}
       </main>
     </div>

@@ -1,1 +1,50 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+
+@theme inline {
+  --font-sans: 'Outfit', sans-serif;
+  --color-secondary: #181818;
+  --color-gray: #8b8b8b;
+  --color-primary: #006239;
+  --color-danger: #e02424;
+}
+
+body {
+  @apply font-sans antialiased;
+}
+
+@utility flex-center {
+  @apply flex items-center justify-center;
+}
+
+@utility col-center {
+  @apply flex items-center justify-center flex-col;
+}
+
+@utility fading-grid {
+  position: relative;
+}
+
+.fading-grid::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.08) 0px,
+      rgba(255, 255, 255, 0.08) 1px,
+      transparent 1px,
+      transparent 60px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.08) 0px,
+      rgba(255, 255, 255, 0.08) 1px,
+      transparent 1px,
+      transparent 60px
+    );
+  mask-image: radial-gradient(ellipse at center, black 20%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 20%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}

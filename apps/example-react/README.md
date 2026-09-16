@@ -1,115 +1,104 @@
-# React + Vite Starter Kit
+# Auth Toolkit — React Example App
 
-- This is a React starter kit designed for reusability and scalability.
+A working example app demonstrating how to integrate [`@auth-toolkit/core`](../../packages/core) and [`@blk-auth-toolkit/react`](../../packages/react) into a React project.
 
-## Tech Decisions
+Use this as a reference when building your own authentication flows with the auth-toolkit packages.
 
-- **Framework**: React 19 + Vite for fast development and build times.
-- **Language**: TypeScript for static typing and better developer experience.
-- **Styling**: Tailwind CSS for utility-first styling.
-- **UI Component Explorer**: Storybook for building and testing UI components in isolation.
-- **Code Quality**: ESLint and Prettier for linting and formatting. Husky, lint-staged, and Commitlint for enforcing commit conventions and pre-commit checks.
-- **Package Manager**: Yarn.
+## Tech Stack
 
-## Setup Instructions
+| Layer | Technology |
+| --- | --- |
+| **Framework** | React 19 + Vite |
+| **Language** | TypeScript |
+| **Styling** | Tailwind CSS v4 |
+| **Routing** | React Router v7 |
+| **Forms** | React Hook Form + Zod |
+| **Data Fetching** | TanStack Query |
+| **Auth** | `@auth-toolkit/core` + `@blk-auth-toolkit/react` |
 
-1. **Clone the repository:**
+## Getting Started
 
-   ```bash
-   git clone <repository-url>
-   ```
+> **Prerequisite** — This app lives inside the `auth-toolkit` monorepo. Run all commands from the **monorepo root** unless stated otherwise.
 
-2. **Install dependencies:**
+### 1. Install dependencies
 
-   ```bash
-   yarn install
-   ```
-
-3. **Start the development server:**
-
-   ```bash
-   yarn dev
-   ```
-
-## Environment Variables
-
-This project uses Vite's environment variable system. All client-side variables must be prefixed with `VITE_`.
-
-1. **Create a local environment file:**
-   Copy `.env.example` to `.env.local` to start developing.
-
-   ```bash
-   cp .env.example .env.local
-   ```
-
-2. **Environment File Hierarchy:**
-   - `.env.local`: Used for local development (git-ignored). Use this for your personal API keys and local overrides.
-   - `.env.staging`: Used for the staging environment.
-   - `.env.production`: Used for the production environment.
-
-> **Note**: Environment variables are validated at runtime using Zod in `src/shared/utils/env.ts`.
-
-## Scripts Explanation
-
-- `yarn dev`: Starts the Vite development server.
-- `yarn build`: Compiles TypeScript and builds the production bundle with Vite.
-- `yarn lint`: Runs ESLint to find and fix problems in the code.
-- `yarn preview`: Locally previews the production build.
-- `yarn storybook`: Starts the Storybook development server on port 6006.
-- `yarn build-storybook`: Builds the Storybook for production.
-- `yarn prepare`: Sets up Husky git hooks.
-
-## Architecture Summary
-
-This starter kit is built upon a **Modular Feature-Based Architecture**, thoughtfully designed to scale and maintain long-term code quality.
-
-## Folder Explanation
-
-The key directories governing our source structure are:
-
-- `src/app/`: Core application initialization, routing, and global abstractions.
-- `src/modules/`: Feature-sliced directories (e.g., `auth/`, `dashboard/`), encapsulating their respective routing, hooks, sub-components, and feature-specific state logic.
-- `src/shared/`: Generic components, utilities, and integrations universally utilized across feature-modules.
-- `src/assets/`: Static assets like images and fonts.
-- `src/stories/`: Storybook component stories.
-- `src/styles/`: Global styles and Tailwind configuration.
-- `docs/`: Project documentation, including comprehensive architecture guides.
-- `public/`: Static files served directly without processing.
-
-For a comprehensive guide, view the full [Architecture Documentation](./docs/architecture.md).
-
-## Commit Format
-
-Used **Husky**, **lint-staged**, and **Commitlint** to ensure high code quality and clear version history. Every commit must follow the [Conventional Commits](https://www.conventionalcommits.org/) format. If the commit message does not match these rules, the commit will be rejected.
-
-### Commit Message Structure
-
-```text
-<type>[optional scope]: <description>
-
-[optional body]
-
-[optional footer(s)]
+```bash
+npm install
 ```
 
-### Allowed Types
+### 2. Configure environment variables
 
-- **`feat`**: A new feature
-- **`fix`**: A bug fix
-- **`docs`**: Documentation only changes
-- **`style`**: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
-- **`refactor`**: A code change that neither fixes a bug nor adds a feature
-- **`perf`**: A code change that improves performance
-- **`test`**: Adding missing tests or correcting existing tests
-- **`build`**: Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)
-- **`ci`**: Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)
-- **`chore`**: Other changes that don't modify src or test files
-- **`revert`**: Reverts a previous commit
+```bash
+cp apps/example-react/.env.example apps/example-react/.env.local
+```
 
-### Examples
+All client-side variables must be prefixed with `VITE_`. Environment variables are validated at runtime using Zod — see `src/shared/utils/env.ts`.
 
-- `feat: add login overlay`
-- `fix(auth): resolve token expiration issue`
-- `docs: update README with commit format rules`
+### 3. Build the packages
 
-> **Note**: The commit message header must not be longer than 100 characters!
+```bash
+npm run build
+```
+
+### 4. Start the dev server
+
+```bash
+npm run dev -w apps/example-react
+```
+
+## Project Structure
+
+```
+src/
+├── app/            # App shell — routing, providers, layout
+├── modules/
+│   ├── auth/       # Auth flows (login, signup, etc.) using auth-toolkit
+│   ├── dashboard/  # Protected dashboard pages
+│   └── wallet/     # Wallet module
+├── shared/         # Shared components, hooks, and utilities
+├── styles/         # Global styles and Tailwind config
+└── assets/         # Static assets (images, fonts)
+```
+
+This app follows a **modular, feature-based architecture**. Each module encapsulates its own pages, components, hooks, and API logic. Public exports are surfaced through barrel `index.ts` files.
+
+## Environment Files
+
+| File | Purpose |
+| --- | --- |
+| `.env.example` | Template — commit this |
+| `.env.local` | Local development overrides (git-ignored) |
+| `.env.staging` | Staging environment |
+| `.env.production` | Production environment |
+
+## Available Scripts
+
+| Script | Description |
+| --- | --- |
+| `npm run dev` | Start the Vite dev server |
+| `npm run build` | Type-check and build for production |
+| `npm run preview` | Preview the production build locally |
+| `npm run lint` | Run ESLint |
+| `npm run storybook` | Launch Storybook on port 6006 |
+
+## Commit Conventions
+
+This repo uses **Husky** + **Commitlint** to enforce [Conventional Commits](https://www.conventionalcommits.org/).
+
+```
+<type>[optional scope]: <description>
+```
+
+**Common types:** `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`
+
+```bash
+# Examples
+feat(auth): add login page with auth-toolkit
+fix: resolve token refresh race condition
+docs: update README with setup instructions
+```
+
+## Learn More
+
+- [`@auth-toolkit/core`](../../packages/core) — Framework-agnostic authentication core
+- [`@blk-auth-toolkit/react`](../../packages/react) — React bindings and hooks

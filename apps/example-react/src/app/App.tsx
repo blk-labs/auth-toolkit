@@ -1,4 +1,6 @@
+import { RouterProvider } from 'react-router-dom';
 import Layout from './Layout';
+import { router } from './routes';
 
 // Test Error Boundary
 // function BuggyComponent() {
@@ -7,21 +9,9 @@ import Layout from './Layout';
 // }
 
 export default function App() {
-  // const [hasError, setHasError] = useState(false);
-
   return (
     <Layout>
-      <div>
-        App
-        {/* <button
-          onClick={() => {
-            setHasError(true);
-          }}
-        >
-          Trigger Error Boundary
-        </button>
-        {hasError && <BuggyComponent />} */}
-      </div>
+      <RouterProvider router={router} />
     </Layout>
   );
 }
