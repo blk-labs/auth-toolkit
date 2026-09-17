@@ -1,9 +1,4 @@
-import {
-  createContext,
-  useEffect,
-  useState,
-  type PropsWithChildren,
-} from 'react';
+import { createContext, useEffect, useState, type PropsWithChildren } from 'react';
 import { AuthManager, WebStorageTokenStore, type AuthState } from '@auth-toolkit/core';
 import type { User } from '@/modules/auth/types';
 
@@ -41,3 +36,5 @@ export default function AuthProvider({ children }: PropsWithChildren) {
     </AuthContext.Provider>
   );
 }
+
+export { AuthContext };

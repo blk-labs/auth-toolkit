@@ -1,4 +1,5 @@
 import { Login } from '@/modules/auth';
+import AuthGuard from '@/modules/auth/components/AuthGuard';
 import { Home, Admin } from '@/modules/dashboard';
 import { NotFound } from '@/modules/errors';
 import { AppLayout } from '@/shared/components/layout';
@@ -8,9 +9,11 @@ export const router: ReturnType<typeof createBrowserRouter> = createBrowserRoute
   {
     path: '/',
     element: (
-      <AppLayout>
-        <Outlet />
-      </AppLayout>
+      <AuthGuard>
+        <AppLayout>
+          <Outlet />
+        </AppLayout>
+      </AuthGuard>
     ),
     children: [
       {
