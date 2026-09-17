@@ -1,4 +1,5 @@
 import type { PropsWithChildren } from 'react';
+import AuthProvider from './providers/AuthProvider';
 import QueryProvider from './providers/QueryProvider';
 import { ThemeProvider } from '@/shared/theme/ThemeProvider';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -13,10 +14,11 @@ export default function Layout({ children }: PropsWithChildren) {
       }}
       FallbackComponent={ErrorState}
     >
-      <QueryProvider>
-        <ThemeProvider>
-          {children}
-          <Toaster
+      <AuthProvider>
+        <QueryProvider>
+          <ThemeProvider>
+            {children}
+            <Toaster
             gutter={12}
             containerStyle={{ margin: '2px' }}
             toastOptions={{
@@ -41,8 +43,9 @@ export default function Layout({ children }: PropsWithChildren) {
               },
             }}
           />
-        </ThemeProvider>
-      </QueryProvider>
+          </ThemeProvider>
+        </QueryProvider>
+      </AuthProvider>
     </ErrorBoundary>
   );
 }

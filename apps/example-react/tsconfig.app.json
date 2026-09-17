@@ -28,10 +28,13 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
 
-    "baseUrl": ".",
+    "rootDir": "../../",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@auth-toolkit/core": ["../../packages/core/src/index.ts"],
+      "@auth/types": ["../../packages/core/src/types/index.ts"]
     }
   },
-  "include": ["src", "src/**/*.json"]
+  "include": ["src", "src/**/*.json", "../../packages/core/src"],
+  "exclude": ["node_modules", "../../packages/core/src/tests", "../../packages/core/src/**/*.test.ts"]
 }

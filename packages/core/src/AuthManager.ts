@@ -1,7 +1,7 @@
 import type { AuthListener, AuthState, TokenStore } from "@auth/types";
 
 export class AuthManager<T = unknown> {
- private tokenStore: TokenStore; 
+  private tokenStore: TokenStore;
 
   constructor(tokenStore: TokenStore) {
     this.tokenStore = tokenStore;
@@ -48,7 +48,7 @@ export class AuthManager<T = unknown> {
     this.setState({ status: "unauthenticated", user: null });
   }
 
- async updateToken(newToken: string): Promise<void> {
+  async updateToken(newToken: string): Promise<void> {
     this.tokenStore.setAccessToken(newToken);
   }
 

@@ -71,7 +71,7 @@ export class createHttpClient {
         },
         reject: (error: unknown) => {
           reject(error);
-        }
+        },
       });
     });
   }
