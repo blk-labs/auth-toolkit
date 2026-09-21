@@ -2,7 +2,7 @@ import { z } from 'zod';
 import Button from '@/shared/components/Button';
 import Input from '@/shared/components/Input';
 import FormInput from '@/shared/components/common/FormInput';
-import { useNavigate } from 'react-router-dom';
+import useLogin from '../hooks/useLogin';
 
 const loginSchema = z.object({
   email: z.email('Invalid email address').min(1, 'Email is required'),
@@ -12,11 +12,10 @@ const loginSchema = z.object({
 type LoginFormValues = z.infer<typeof loginSchema>;
 
 export function Login() {
-  const navigate = useNavigate();
+  const { isPending, login } = useLogin();
 
-  const handleLogin = async (data: LoginFormValues) => {
-    console.log('Login successful:', data);
-    await navigate('/');
+  const handleLogin = (data: LoginFormValues) => {
+    login(data);
   };
 
   return (
@@ -42,7 +41,12 @@ export function Login() {
                 {...register('password')}
                 error={errors.password?.message}
               />
-              <Button type="submit" className="mt-2 w-full" disabled={!isValid}>
+              <Button
+                loading={isPending}
+                type="submit"
+                className="mt-2 w-full"
+                disabled={!isValid || isPending}
+              >
                 Login
               </Button>
             </>

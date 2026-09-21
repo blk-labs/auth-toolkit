@@ -10,6 +10,7 @@ export default defineConfig({
     alias: {
       "@": path.resolve(__dirname, "./src"),
       "@auth-toolkit/core": path.resolve(__dirname, "../../packages/core/src/index.ts"),
+      "@blk-auth-toolkit/react": path.resolve(__dirname, "../../packages/react/src/index.ts"),
     },
   },
 });

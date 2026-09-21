@@ -28,13 +28,20 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
 
+    "baseUrl": ".",
     "rootDir": "../../",
     "paths": {
       "@/*": ["./src/*"],
       "@auth-toolkit/core": ["../../packages/core/src/index.ts"],
-      "@auth/types": ["../../packages/core/src/types/index.ts"]
+      "@auth/types": ["../../packages/core/src/types/index.ts"],
+      "@blk-auth-toolkit/react": ["../../packages/react/src/index.ts"]
     }
   },
-  "include": ["src", "src/**/*.json", "../../packages/core/src"],
-  "exclude": ["node_modules", "../../packages/core/src/tests", "../../packages/core/src/**/*.test.ts"]
+  "include": [
+    "src",
+    "src/**/*.json",
+    "../../packages/core/src",
+    "../../packages/react/src"
+  ],
+  "exclude": ["../../packages/react/src/__tests__"]
 }
