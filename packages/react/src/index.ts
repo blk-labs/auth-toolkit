@@ -1,6 +1,6 @@
 // Providers
 export { AuthProvider } from "./providers/AuthProvider";
-export type { AuthProviderProps } from "./providers/AuthProvider";
+export type { AuthManagerLike, AuthProviderProps } from "./providers/AuthProvider";
 
 // Hooks
 export { useAuth } from "./hooks/useAuth";

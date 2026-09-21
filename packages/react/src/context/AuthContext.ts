@@ -13,9 +13,9 @@ export interface AuthState<User = unknown> {
 
 export interface AuthContextValue<User = unknown>
   extends AuthState<User> {
-  login: (user?: User) => Promise<void> | void;
-  logout: () => Promise<void> | void;
-  refresh: () => Promise<void> | void;
+  login: (user: User, token: string) => Promise<void>;
+  logout: () => void;
+  refresh: () => Promise<string>;
 }
 
 export const AuthContext = createContext<AuthContextValue<unknown> | undefined>(

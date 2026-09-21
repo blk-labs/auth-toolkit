@@ -13,11 +13,11 @@ The **"Brain"** of the system.
 - **Storage Abstractions:** A common interface for persisting tokens, allowing you to swap between `Memory`, `LocalStorage`, or even custom implementations.
 - **HTTP Middleware:** Framework-agnostic client to handle 401s and token refreshes.
 
-### 2. `@auth-toolkit/react` (Planned)
+### 2. `@blk-auth-toolkit/react`
 The **"UI Layer"** of the system.
 - **Context API:** Wraps the `AuthManager` into a React Context.
 - **Hooks:** Provides `useAuth()` for easy access to state and methods.
-- **Protection Components:** `<ProtectedRoute />` components for easy routing.
+- **Protection Components:** `<RequireAuth />` and `<RequireGuest />` for route access.
 
 ---
 

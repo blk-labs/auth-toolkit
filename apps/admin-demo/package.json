@@ -1,0 +1,28 @@
+{
+  "name": "@auth-toolkit/admin-demo",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@auth-toolkit/core": "*",
+    "@blk-auth-toolkit/react": "*",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^14.2.1",
+    "@testing-library/user-event": "^14.5.2",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "jsdom": "^24.0.0",
+    "typescript": "^6.0.2",
+    "vite": "^5.4.21",
+    "vitest": "^1.6.1"
+  }
+}

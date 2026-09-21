@@ -8,10 +8,10 @@
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
     "module": "nodenext",
+    "ignoreDeprecations": "6.0",
     "target": "esnext",
     "lib": ["esnext", "dom"],
     "types": [],
-    "baseUrl": ".",
     "paths": {
       "@auth/types": ["./packages/core/src/types/index.ts"],
       "@core/*": ["./packages/core/src/*"]
