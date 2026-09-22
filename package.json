@@ -24,9 +24,16 @@
   },
   "homepage": "https://github.com/blk-labs/auth-toolkit#readme",
   "devDependencies": {
+    "@storybook/builder-vite": "^10.2.12",
+    "@storybook/react": "^10.2.12",
+    "@storybook/react-vite": "^10.2.12",
     "@types/node": "^25.5.2",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "storybook": "^10.2.12",
     "tsup": "^8.5.1",
     "typescript": "^6.0.2",
+    "vite": "^7.3.1",
     "vitest": "^4.1.3"
   }
 }

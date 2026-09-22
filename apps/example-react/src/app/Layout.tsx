@@ -1,5 +1,5 @@
 import type { PropsWithChildren } from 'react';
-import { AuthProvider } from '@blk-auth-toolkit/react';
+import  AuthProvider  from './providers/AuthProvider';
 import QueryProvider from './providers/QueryProvider';
 import { ThemeProvider } from '@/shared/theme/ThemeProvider';
 import { ErrorBoundary } from 'react-error-boundary';
