@@ -1,15 +1,5 @@
 import { createContext } from "react";
-
-export type AuthStatus =
-  | "unknown"
-  | "loading"
-  | "authenticated"
-  | "unauthenticated";
-
-export interface AuthState<User = unknown> {
-  status: AuthStatus;
-  user: User | null;
-}
+import type { AuthState } from "@auth-toolkit/core";
 
 export interface AuthContextValue<User = unknown>
   extends AuthState<User> {

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import { AuthContext, AuthContextValue } from "../context/AuthContext";
-import { AuthManager, WebStorageTokenStore, type AuthState } from '@auth-toolkit/core';
+import type { AuthState } from "@auth-toolkit/core";
 
 
 export interface AuthManagerLike<User = unknown> {
