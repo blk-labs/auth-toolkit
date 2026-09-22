@@ -4,6 +4,8 @@ import { authManager } from "./auth";
 import { navigateTo } from "./navigation";
 import { DashboardPage } from "./pages/DashboardPage";
 import { LoginPlaceholder } from "./pages/LoginPlaceholder";
+import { UserPage } from "./pages/UserPage";
+
 
 function Routes() {
   const [pathname, setPathname] = useState(() => window.location.pathname);
@@ -26,6 +28,14 @@ function Routes() {
     return (
       <RequireAuth redirectTo="/login" loading={<div className="page-loading">Loading your dashboard…</div>}>
         <DashboardPage />
+      </RequireAuth>
+    );
+  }
+
+  if (pathname === "/user") {
+    return (
+      <RequireAuth redirectTo="/login" loading={<div className="page-loading">Loading your account…</div>}>
+        <UserPage />
       </RequireAuth>
     );
   }

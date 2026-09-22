@@ -1,13 +1,18 @@
 import { useAuth } from "@blk-auth-toolkit/react";
-import { demoAdmin, type AdminUser } from "../auth";
+import { demoAdmin, demoMember, type DemoUser } from "../auth";
 import { navigateTo } from "../navigation";
 
 export function LoginPlaceholder() {
-  const { login } = useAuth<AdminUser>();
+  const { login } = useAuth<DemoUser>();
 
   async function enterDemo() {
     await login(demoAdmin, "demo-access-token");
     navigateTo("/dashboard", true);
+  }
+
+  async function enterMemberDemo() {
+    await login(demoMember, "demo-member-token");
+    navigateTo("/user", true);
   }
 
   return (
@@ -19,9 +24,14 @@ export function LoginPlaceholder() {
         <p className="login-description">
           This is just a placeholder, joe you can replace this with your own login form .
         </p>
-        <button type="button" className="button button-primary button-wide" onClick={enterDemo}>
-          Enter as demo admin <span aria-hidden="true">→</span>
-        </button>
+        <div className="login-actions">
+          <button type="button" className="button button-primary button-wide" onClick={enterDemo}>
+            Enter as demo admin <span aria-hidden="true">→</span>
+          </button>
+          <button type="button" className="button button-secondary button-wide" onClick={enterMemberDemo}>
+            Enter as demo member <span aria-hidden="true">→</span>
+          </button>
+        </div>
         <p className="login-note">Demo access lives only in this browser tab and ends when you reload.</p>
       </div>
     </main>

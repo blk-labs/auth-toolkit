@@ -1,5 +1,5 @@
 import { useAuth, useAuthRedirect } from "@blk-auth-toolkit/react";
-import type { AdminUser } from "../auth";
+import type { DemoUser } from "../auth";
 
 const metrics = [
   { number: "01", label: "People with access", value: "2,846", change: "+12.8%", detail: "from last month", color: "lilac" },
@@ -33,7 +33,7 @@ const activity = [
 ] as const;
 
 export function DashboardPage() {
-  const { user, logout } = useAuth<AdminUser>();
+  const { user, logout } = useAuth<DemoUser>();
   const { redirectAfterLogout } = useAuthRedirect();
 
   function handleLogout() {

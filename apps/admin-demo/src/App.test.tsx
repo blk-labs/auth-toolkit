@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { act, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { App } from "./App";
-import { authManager } from "./auth";
+import { authManager, demoMember } from "./auth";
 import { navigateTo } from "./navigation";
 
 describe("admin demo auth flow", () => {
@@ -33,5 +33,24 @@ describe("admin demo auth flow", () => {
     act(() => navigateTo("/dashboard"));
     await waitFor(() => expect(window.location.pathname).toBe("/login"));
     expect(screen.queryByRole("heading", { name: /who's in/i })).toBeNull();
+  });
+
+  it("shows the member page to a member and logs them out", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await act(async () => {
+      await user.click(screen.getByRole("button", { name: /enter as demo member/i }));
+    });
+    await waitFor(() => expect(screen.getByRole("heading", { name: /good to see you/i })).toBeTruthy());
+    expect(window.location.pathname).toBe("/user");
+    expect(authManager.getState().user).toEqual(demoMember);
+    expect(screen.getByText(demoMember.email)).toBeTruthy();
+
+    await act(async () => {
+      await user.click(screen.getByRole("button", { name: /log out/i }));
+    });
+    await waitFor(() => expect(window.location.pathname).toBe("/login"));
+    expect(authManager.getState()).toEqual({ status: "unauthenticated", user: null });
   });
 });
