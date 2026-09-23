@@ -1,19 +1,22 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useAuth } from "@blk-auth-toolkit/react";
-import { navigateTo } from "../navigation";
 import { Input } from "../components/Input";
+import { useLogin } from "../hooks/useSession";
+import { InlineLoader } from "../components/Loader";
 
 const loginSchema = z.object({
   email: z.email("Enter a valid email address").min(1, "Email is required"),
-  password: z.string().min(1, "Password is required").min(8, "Password must be at least 8 characters"),
+  password: z
+    .string()
+    .min(1, "Password is required")
+    
 });
 
 type LoginFormData = z.infer<typeof loginSchema>;
 
 export function LoginPage() {
-  const { login } = useAuth();
+  const { isPending, mutate } = useLogin();
   const {
     register,
     handleSubmit,
@@ -26,24 +29,27 @@ export function LoginPage() {
     },
   });
 
-  async function onSubmit(data: LoginFormData) {
-    try {
-      await login({ id: "user", name: "", email: data.email, role: "member" }, "demo-token");
-      navigateTo("/user", true);
-    } catch {
-      // Error handled by auth provider
-    }
+  function onSubmit(data: LoginFormData) {
+    mutate(data);
   }
 
   return (
     <main className="login-screen">
       <div className="login-card">
-        <div className="brand-mark brand-mark-large" aria-hidden="true">B</div>
+        <div className="brand-mark brand-mark-large" aria-hidden="true">
+          B
+        </div>
         <p className="eyebrow">Auth Toolkit · Demo app</p>
         <h1>Sign in to your account</h1>
-        <p className="login-description">Enter your credentials to access the admin dashboard.</p>
+        <p className="login-description">
+          Enter your credentials to access the admin dashboard.
+        </p>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="login-form" noValidate>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="login-form"
+          noValidate
+        >
           <Input
             label="Email"
             type="email"
@@ -67,19 +73,20 @@ export function LoginPage() {
               <input type="checkbox" className="checkbox" />
               <span className="checkbox-label">Remember me</span>
             </label>
-            <a href="#" className="forgot-link">Forgot password?</a>
+            <a href="#" className="forgot-link">
+              Forgot password?
+            </a>
           </div>
 
           <button
             type="submit"
             className="button button-primary button-wide"
-            disabled={isSubmitting}
+            disabled={isSubmitting || isPending}
           >
-            {isSubmitting ? "Signing in…" : "Sign in"}
+            {(isSubmitting || isPending) ? <InlineLoader color="white" /> : "Sign in"}
             <span aria-hidden="true">→</span>
           </button>
         </form>
-
       </div>
     </main>
   );

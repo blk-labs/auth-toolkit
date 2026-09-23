@@ -40,7 +40,7 @@ export function RequireAuth({
 }: RequireAuthProps): React.ReactElement | null {
   const { user, status } = useAuth();
 
-  const isAuthenticated = status === "authenticated" && user !== null;
+  const isAuthenticated = status === "authenticated" && user;
   const isLoading = status === "loading" || status === "unknown";
 
   useEffect(() => {

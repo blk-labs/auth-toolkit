@@ -73,7 +73,7 @@ export interface UseApiReturn {
  * ```
  */
 export function useApi(): UseApiReturn {
-  const { logout } = useAuth();
+  const { logout, getTokenStore } = useAuth();
   const clientRef = useRef<HttpClient | null>(null);
   const [isReady, setIsReady] = useState(false);
 
@@ -82,17 +82,12 @@ export function useApi(): UseApiReturn {
 
     loadCreateHttpClientFn()
       .then(() => {
-        if (cancelled || !cachedCreateFn) return;
+        if (cancelled || !cachedCreateFn || !getTokenStore) return;
 
+        const tokenStore = getTokenStore();
         const client = cachedCreateFn({
-          getAccessToken: (): string | null => {
-            // The token store is managed by the core AuthManager.
-            // This will be wired to the actual TokenStore when the core
-            // package exposes it publicly.
-            return null;
-          },
-          onLogout: (): void => {
-            
+          getAccessToken: () => tokenStore.getAccessToken(),
+          onLogout: () => {
             logout();
           },
         });
@@ -111,7 +106,7 @@ export function useApi(): UseApiReturn {
     return () => {
       cancelled = true;
     };
-  }, [logout]);
+  }, [logout, getTokenStore]);
 
   const get = useCallback<HttpClient["get"]>(
     (url: string, config?: RequestInit) => {

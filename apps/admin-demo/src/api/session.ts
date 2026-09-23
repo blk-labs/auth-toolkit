@@ -36,7 +36,7 @@ export const sessionHandler: HttpHandler = http.get(
     const currentUser = usersData.find((el) => el.id === userId);
 
     if (!currentUser) {
-      return HttpResponse.json({ message: "User not found", status: 404 });
+      return HttpResponse.json({ message: "User not found", status: 400 });
     }
 
     const { password, ...rest } = currentUser;

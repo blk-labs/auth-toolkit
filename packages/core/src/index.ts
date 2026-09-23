@@ -6,5 +6,8 @@ export * from "./TokenStore.js";
 export type {
   AuthState,
   AuthStatus,
-  AuthListener,
+  AuthListener
 } from "./types/auth.js";
+export type {
+  TokenStore
+} from "./types/index.js";
