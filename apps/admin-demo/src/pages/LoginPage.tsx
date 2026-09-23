@@ -29,7 +29,7 @@ export function LoginPage() {
   async function onSubmit(data: LoginFormData) {
     try {
       await login({ id: "user", name: "", email: data.email, role: "member" }, "demo-token");
-      navigateTo("/dashboard", true);
+      navigateTo("/user", true);
     } catch {
       // Error handled by auth provider
     }
@@ -80,38 +80,6 @@ export function LoginPage() {
           </button>
         </form>
 
-        <div className="login-divider">
-          <span>or continue as demo</span>
-        </div>
-
-        <div className="login-actions">
-          <button
-            type="button"
-            className="button button-secondary button-wide"
-            onClick={async () => {
-              const { demoAdmin } = await import("../auth");
-              await login(demoAdmin, "demo-access-token");
-              navigateTo("/dashboard", true);
-            }}
-          >
-            Enter as demo admin <span aria-hidden="true">→</span>
-          </button>
-          <button
-            type="button"
-            className="button button-secondary button-wide"
-            onClick={async () => {
-              const { demoMember } = await import("../auth");
-              await login(demoMember, "demo-member-token");
-              navigateTo("/user", true);
-            }}
-          >
-            Enter as demo member <span aria-hidden="true">→</span>
-          </button>
-        </div>
-
-        <p className="login-note">
-          Demo access lives only in this browser tab and ends when you reload.
-        </p>
       </div>
     </main>
   );

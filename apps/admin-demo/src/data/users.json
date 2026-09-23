@@ -1,0 +1,152 @@
+[
+  {
+    "id": "usr-001",
+    "name": "Alex Morgan",
+    "email": "alex.morgan@example.com",
+    "password": "hashed_pw_001",
+    "role": "admin",
+    "created_at": "2024-01-15T08:30:00Z",
+    "last_login": "2026-09-20T14:22:00Z",
+    "active_sessions": 3,
+    "security_log": [
+      { "title": "Signed in successfully", "detail": "Chrome on Windows", "time": "2 hours ago", "color": "mint" },
+      { "title": "Password changed", "detail": "Updated via settings", "time": "3 days ago", "color": "lilac" },
+      { "title": "New device login", "detail": "iPhone 15 Pro", "time": "1 week ago", "color": "yellow" }
+    ]
+  },
+  {
+    "id": "usr-002",
+    "name": "Maya Chen",
+    "email": "maya.chen@example.com",
+    "password": "hashed_pw_002",
+    "role": "member",
+    "created_at": "2024-03-22T10:15:00Z",
+    "last_login": "2026-09-22T09:45:00Z",
+    "active_sessions": 2,
+    "security_log": [
+      { "title": "Signed in successfully", "detail": "Safari on macOS", "time": "Just now", "color": "mint" },
+      { "title": "Account details reviewed", "detail": "No changes were made", "time": "Yesterday", "color": "lilac" },
+      { "title": "Session renewed", "detail": "Your access stayed active", "time": "3 days ago", "color": "yellow" }
+    ]
+  },
+  {
+    "id": "usr-003",
+    "name": "Jordan Kim",
+    "email": "jordan.kim@example.com",
+    "password": "hashed_pw_003",
+    "role": "member",
+    "created_at": "2024-05-10T14:00:00Z",
+    "last_login": "2026-09-21T16:30:00Z",
+    "active_sessions": 1,
+    "security_log": [
+      { "title": "Signed in successfully", "detail": "Firefox on Linux", "time": "1 day ago", "color": "mint" },
+      { "title": "Two-factor enabled", "detail": "Authenticator app configured", "time": "2 weeks ago", "color": "lilac" },
+      { "title": "Failed login attempt", "detail": "Incorrect password", "time": "1 month ago", "color": "coral" }
+    ]
+  },
+  {
+    "id": "usr-004",
+    "name": "Taylor Brooks",
+    "email": "taylor.brooks@example.com",
+    "password": "hashed_pw_004",
+    "role": "member",
+    "created_at": "2024-07-03T09:20:00Z",
+    "last_login": "2026-09-22T08:00:00Z",
+    "active_sessions": 4,
+    "security_log": [
+      { "title": "Signed in successfully", "detail": "Edge on Windows", "time": "3 hours ago", "color": "mint" },
+      { "title": "New device login", "detail": "iPad Pro", "time": "5 days ago", "color": "yellow" },
+      { "title": "Email verified", "detail": "Confirmed email address", "time": "2 weeks ago", "color": "lilac" }
+    ]
+  },
+  {
+    "id": "usr-005",
+    "name": "Casey Rivera",
+    "email": "casey.rivera@example.com",
+    "password": "hashed_pw_005",
+    "role": "admin",
+    "created_at": "2023-11-28T11:45:00Z",
+    "last_login": "2026-09-22T11:10:00Z",
+    "active_sessions": 2,
+    "security_log": [
+      { "title": "Signed in successfully", "detail": "Chrome on macOS", "time": "1 hour ago", "color": "mint" },
+      { "title": "Admin panel accessed", "detail": "User management section", "time": "2 hours ago", "color": "lilac" },
+      { "title": "Security audit completed", "detail": "All checks passed", "time": "1 week ago", "color": "mint" }
+    ]
+  },
+  {
+    "id": "usr-006",
+    "name": "Riley Foster",
+    "email": "riley.foster@example.com",
+    "password": "hashed_pw_006",
+    "role": "member",
+    "created_at": "2025-01-12T13:30:00Z",
+    "last_login": "2026-09-20T20:15:00Z",
+    "active_sessions": 1,
+    "security_log": [
+      { "title": "Signed in successfully", "detail": "Chrome on Windows", "time": "2 days ago", "color": "mint" },
+      { "title": "Profile updated", "detail": "Changed display name", "time": "1 week ago", "color": "lilac" },
+      { "title": "Session expired", "detail": "Automatic logout after 30 days", "time": "2 weeks ago", "color": "yellow" }
+    ]
+  },
+  {
+    "id": "usr-007",
+    "name": "Morgan Hayes",
+    "email": "morgan.hayes@example.com",
+    "password": "hashed_pw_007",
+    "role": "member",
+    "created_at": "2025-02-18T15:00:00Z",
+    "last_login": "2026-09-22T07:30:00Z",
+    "active_sessions": 3,
+    "security_log": [
+      { "title": "Signed in successfully", "detail": "Safari on iPhone", "time": "4 hours ago", "color": "mint" },
+      { "title": "New device login", "detail": "MacBook Air M2", "time": "3 days ago", "color": "yellow" },
+      { "title": "Password reset requested", "detail": "Link sent to email", "time": "1 month ago", "color": "coral" }
+    ]
+  },
+  {
+    "id": "usr-008",
+    "name": "Quinn Bennett",
+    "email": "quinn.bennett@example.com",
+    "password": "hashed_pw_008",
+    "role": "member",
+    "created_at": "2025-04-05T09:00:00Z",
+    "last_login": "2026-09-21T12:45:00Z",
+    "active_sessions": 1,
+    "security_log": [
+      { "title": "Signed in successfully", "detail": "Firefox on Windows", "time": "1 day ago", "color": "mint" },
+      { "title": "Two-factor disabled", "detail": "Authenticator removed", "time": "2 weeks ago", "color": "coral" },
+      { "title": "Email changed", "detail": "Updated to new address", "time": "3 weeks ago", "color": "lilac" }
+    ]
+  },
+  {
+    "id": "usr-009",
+    "name": "Avery Collins",
+    "email": "avery.collins@example.com",
+    "password": "hashed_pw_009",
+    "role": "admin",
+    "created_at": "2023-09-14T16:20:00Z",
+    "last_login": "2026-09-22T13:00:00Z",
+    "active_sessions": 5,
+    "security_log": [
+      { "title": "Signed in successfully", "detail": "Chrome on Linux", "time": "30 minutes ago", "color": "mint" },
+      { "title": "Bulk user import", "detail": "Added 50 new members", "time": "1 hour ago", "color": "lilac" },
+      { "title": "Security policy updated", "detail": "Enforced MFA for admins", "time": "4 days ago", "color": "mint" }
+    ]
+  },
+  {
+    "id": "usr-010",
+    "name": "Drew Mitchell",
+    "email": "drew.mitchell@example.com",
+    "password": "hashed_pw_010",
+    "role": "member",
+    "created_at": "2025-06-30T10:30:00Z",
+    "last_login": "2026-09-19T18:20:00Z",
+    "active_sessions": 0,
+    "security_log": [
+      { "title": "Signed in successfully", "detail": "Edge on Windows", "time": "3 days ago", "color": "mint" },
+      { "title": "Account created", "detail": "Welcome to the platform", "time": "2 weeks ago", "color": "lilac" },
+      { "title": "First login", "detail": "Completed onboarding", "time": "2 weeks ago", "color": "mint" }
+    ]
+  }
+]
