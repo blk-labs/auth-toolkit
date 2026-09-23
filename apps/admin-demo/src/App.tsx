@@ -3,7 +3,7 @@ import { AuthProvider, RequireAuth, RequireGuest } from "@blk-auth-toolkit/react
 import { authManager } from "./auth";
 import { navigateTo } from "./navigation";
 import { DashboardPage } from "./pages/DashboardPage";
-import { LoginPlaceholder } from "./pages/LoginPlaceholder";
+import { LoginPage } from "./pages/LoginPage";
 import { UserPage } from "./pages/UserPage";
 
 
@@ -19,7 +19,7 @@ function Routes() {
   if (pathname === "/login") {
     return (
       <RequireGuest redirectTo="/dashboard">
-        <LoginPlaceholder />
+        <LoginPage />
       </RequireGuest>
     );
   }

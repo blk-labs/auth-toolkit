@@ -157,6 +157,40 @@ tr:last-child td { border-bottom: 0; }
 .button-wide { width: 100%; justify-content: space-between; }
 .button-wide span { font-size: 18px; line-height: .7; }
 .login-actions { display: grid; gap: 10px; }
+
+.login-form { display: grid; gap: 16px; margin-top: 8px; }
+
+.input-wrapper { display: grid; gap: 6px; }
+.input-label { color: #34334e; font-size: 11px; font-weight: 750; }
+.input-field {
+  min-height: 43px;
+  padding: 0 14px;
+  border: 1px solid #d9d3e0;
+  border-radius: 9px;
+  background: #fff;
+  color: #20213b;
+  font-size: 13px;
+  font-family: inherit;
+  transition: border-color .18s, box-shadow .18s;
+}
+.input-field::placeholder { color: #a5a0a5; }
+.input-field:hover { border-color: #b8b0c8; }
+.input-field:focus { outline: none; border-color: #7c70b8; box-shadow: 0 0 0 3px #e0d8f4; }
+.input-wrapper.has-error .input-field { border-color: #e06d6d; }
+.input-wrapper.has-error .input-field:focus { box-shadow: 0 0 0 3px #fadede; }
+.input-error { margin: 0; color: #e06d6d; font-size: 10px; font-weight: 650; }
+.input-helper { margin: 0; color: #9e99a3; font-size: 10px; }
+
+.login-options { display: flex; align-items: center; justify-content: space-between; margin-top: 4px; }
+.checkbox-wrapper { display: flex; align-items: center; gap: 7px; cursor: pointer; }
+.checkbox { width: 16px; height: 16px; flex: 0 0 16px; accent-color: #292b5d; }
+.checkbox-label { color: #555276; font-size: 11px; font-weight: 600; }
+.forgot-link { color: #6e63ad; font-size: 11px; font-weight: 650; text-decoration: none; }
+.forgot-link:hover { text-decoration: underline; }
+
+.login-divider { display: flex; align-items: center; gap: 14px; margin: 8px 0 4px; color: #9e99a3; font-size: 10px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.login-divider::before,
+.login-divider::after { content: ""; flex: 1; height: 1px; background: #e9e1d9; }
 .page-loading { min-height: 100vh; display: grid; place-items: center; color: #777585; font-size: 13px; }
 .not-found { align-content: center; text-align: center; gap: 9px; }
 
