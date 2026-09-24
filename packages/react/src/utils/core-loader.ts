@@ -2,7 +2,7 @@
  * Lazy loader for @auth-toolkit/core exports.
  * 
  * This module provides a typed wrapper around the dynamic import of @auth-toolkit/core.
- * The actual module will be available at runtime once the other intern's PR is merged.
+ * The core package is a workspace dependency of the React package.
  * 
  * @module @auth-toolkit/core-loader
  */
@@ -29,8 +29,6 @@ export interface CoreModule {
  * Returns the core module exports with proper typing.
  */
 export async function loadCoreModule(): Promise<CoreModule> {
-  // Dynamic import - will resolve to @auth-toolkit/core at runtime
-  // @ts-expect-error - @auth-toolkit/core will be available when the other intern's PR is merged
   const core = await import("@auth-toolkit/core");
   return core as unknown as CoreModule;
 }

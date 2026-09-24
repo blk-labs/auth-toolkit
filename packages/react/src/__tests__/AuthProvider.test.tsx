@@ -36,10 +36,10 @@ function createMockAuthManager(
       }
     ),
 
-    login: vi.fn(),
+    login: vi.fn().mockResolvedValue(undefined),
     logout: vi.fn(),
-    refresh: vi.fn(),
-    bootstrapAuth: vi.fn(),
+    refresh: vi.fn().mockResolvedValue("renewed-token"),
+    bootstrapAuth: vi.fn().mockResolvedValue(undefined),
 
     __emit(newState) {
       state = newState;
@@ -133,11 +133,11 @@ describe("AuthProvider & useAuth", () => {
     });
 
     const TestComponent = () => {
-      const { login, logout, refresh } = useAuth();
+      const { login, logout, refresh } = useAuth<MockUser>();
 
       return (
         <div>
-          <button onClick={() => login()}>Login</button>
+          <button onClick={() => login({ id: "1", name: "Peace" }, "access-token")}>Login</button>
           <button onClick={() => logout()}>Logout</button>
           <button onClick={() => refresh()}>Refresh</button>
         </div>
@@ -154,7 +154,10 @@ describe("AuthProvider & useAuth", () => {
     await user.click(screen.getByText("Logout"));
     await user.click(screen.getByText("Refresh"));
 
-    expect(mockManager.login).toHaveBeenCalledTimes(1);
+    expect(mockManager.login).toHaveBeenCalledWith(
+      { id: "1", name: "Peace" },
+      "access-token"
+    );
     expect(mockManager.logout).toHaveBeenCalledTimes(1);
     expect(mockManager.refresh).toHaveBeenCalledTimes(1);
   });

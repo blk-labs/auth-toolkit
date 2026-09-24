@@ -2,15 +2,15 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import { AuthContext, AuthContextValue } from "../context/AuthContext";
-import type { AuthState } from "../context/AuthContext";
+import type { AuthState } from "@auth-toolkit/core";
 
 
 export interface AuthManagerLike<User = unknown> {
   getState(): { status: AuthState<User>["status"]; user: User | null };
   subscribe(listener: (state: { status: AuthState<User>["status"]; user: User | null }) => void): () => void;
-  login(user: User): Promise<void>;
+  login(user: User, token: string): Promise<void>;
   logout(): void;
-  refresh(): Promise<void>;
+  refresh(): Promise<string>;
   bootstrapAuth(): Promise<void>;
 }
 
@@ -43,7 +43,7 @@ export function AuthProvider<User = unknown>({
     () => ({
       status,
       user,
-      login: (user?: User) => authManager.login(user!),
+      login: (user: User, token: string) => authManager.login(user, token),
       logout: () => authManager.logout(),
       refresh: () => authManager.refresh(),
     }),

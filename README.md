@@ -7,8 +7,8 @@ A professional, modular authentication toolkit designed for modern web applicati
 This project is managed using **NPM Workspaces**.
 
 - **`packages/core`**: The "Brain." Pure TypeScript logic, state management, and storage abstractions. Zero UI dependencies.
-- **`packages/react`**: (Planned) The "UI Layer." React hooks and providers built on top of the core.
-- **`apps/*`**: (Planned) Example applications and documentation sites.
+- **`packages/react`**: The `@blk-auth-toolkit/react` package. React hooks, providers, and route guards built on top of the core.
+- **`apps/admin-demo`**: Mock admin dashboard with a temporary demo login and a working logout flow.
 
 ---
 
