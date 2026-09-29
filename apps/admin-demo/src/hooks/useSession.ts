@@ -13,6 +13,8 @@ export default function useSession() {
 
   const session = data;
 
+  console.log({data})
+
   return { session, isLoading, refetch, error };
 }
 

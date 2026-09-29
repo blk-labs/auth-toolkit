@@ -1,27 +1,22 @@
+import { useAuth } from "@blk-auth-toolkit/react";
 import { PageLoader } from "../components/Loader";
-import useSession from "../hooks/useSession";
 import { Navigate } from "react-router-dom";
 
 export default function AuthRedirect() {
-  const { session, isLoading, error } = useSession();
+  const { user, status } = useAuth<User>();
 
-  
 
-  if (isLoading) {
-    return <PageLoader />;
+  if(status === "loading"){
+    return <PageLoader />
   }
 
-  if (error) {
+  if (!user) {
     return <Navigate to={"/login"} replace />;
   }
 
-  if (session) {
-    if (session.role === "admin") {
-      return <Navigate to={"/dashboard"} replace />;
-    }
-
-    return <Navigate to={"/user"} replace />;
+  if (user.role === "admin") {
+    return <Navigate to={"/admin"} replace />;
   }
 
-  return null;
+  return <Navigate to={"/user"} replace />;
 }

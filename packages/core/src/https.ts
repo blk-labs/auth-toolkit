@@ -12,7 +12,7 @@ type Subscriber = {
   reject: (error: unknown) => void;
 };
 
-export class createHttpClient {
+export class HttpClient {
   private isRefreshing = false;
   private refreshSubscribers: Subscriber[] = [];
 
@@ -87,4 +87,8 @@ export class createHttpClient {
     this.refreshSubscribers.forEach((sub) => sub.reject(error));
     this.refreshSubscribers = [];
   }
+}
+
+export function createHttpClient(config: HttpClientConfig): HttpClient {
+  return new HttpClient(config);
 }
