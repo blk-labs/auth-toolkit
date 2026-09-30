@@ -1,57 +1,15 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, type PropsWithChildren } from "react";
 import { useAuth } from "../hooks/useAuth";
-import { loadCoreModule } from "../utils/core-loader";
-import type { AuthUser } from "../types/core-exports";
+import { can, hasRole, hasAnyRole, type AuthUser } from "@auth-toolkit/core";
 
-
-type CanChecker = (
-  user: AuthUser | null,
-  action: string,
-  resource: string,
-  resolver?: (user: AuthUser, action: string, resource: string) => boolean
-) => boolean;
-
-let cachedCanFn: CanChecker | null = null;
-let loadPromise: Promise<void> | null = null;
-
-
-function loadCanFn(): Promise<void> {
-  if (cachedCanFn) {
-    return Promise.resolve();
-  }
-
-  if (loadPromise) {
-    return loadPromise;
-  }
-
-  loadPromise = loadCoreModule()
-    .then((core) => {
-      cachedCanFn = core.can;
-    })
-    .catch(() => {
-      cachedCanFn = () => false;
-    });
-
-  return loadPromise;
-}
-
-export interface CanProps {
-  
+export interface CanProps extends PropsWithChildren {
   action: string;
-
- 
   resource: string;
-
-  
   fallback?: React.ReactNode;
-
   resolver?: (user: AuthUser, action: string, resource: string) => boolean;
-
-  
-  children: React.ReactNode;
-}
+} 
 
 /**
  * Can - RBAC Permission Component
@@ -82,39 +40,8 @@ export function Can({
   children,
 }: CanProps): React.ReactElement | null {
   const { user } = useAuth<AuthUser>();
-  const [isReady, setIsReady] = useState(!!cachedCanFn);
 
-  useEffect(() => {
-    let cancelled = false;
-
-    loadCanFn()
-      .then(() => {
-        if (!cancelled) {
-          setIsReady(true);
-        }
-      })
-      .catch(() => {
-        if (!cancelled) {
-          setIsReady(true);
-        }
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  // If the can function is not loaded yet, render nothing
-  if (!isReady || !cachedCanFn) {
-    return null;
-  }
-
-  const hasPermission = cachedCanFn(
-    user as AuthUser | null,
-    action,
-    resource,
-    resolver
-  );
+  const hasPermission = can(user as AuthUser | null, action, resource, resolver);
 
   if (!hasPermission) {
     return fallback as React.ReactElement | null;

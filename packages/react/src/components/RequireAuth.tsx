@@ -2,16 +2,13 @@
 
 import React, { useEffect } from "react";
 import { useAuth } from "../hooks/useAuth";
-import { navigate, getCurrentPath, isCurrentPath } from "../utils/navigation";
+import { navigate, getCurrentPath } from "../utils/navigation";
 
-const INTENDED_ROUTE_KEY = "auth-toolkit.intendedRoute";
+const INTENDED_ROUTE_KEY = "auth_toolkit_return_to";
 
 export interface RequireAuthProps {
- 
   children: React.ReactNode;
-
   redirectTo?: string;
-
   loading?: React.ReactNode;
 }
 

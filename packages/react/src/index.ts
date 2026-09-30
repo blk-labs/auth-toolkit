@@ -9,6 +9,7 @@ export { useAuthRedirect } from "./hooks/useAuthRedirect";
 export type { UseAuthRedirectReturn } from "./hooks/useAuthRedirect";
 export { useApi } from "./hooks/useApi";
 export type { UseApiReturn, HttpClient } from "./hooks/useApi";
+export { useCan, useHasRole, useHasAnyRole } from "./hooks/useRbac";
 
 // Route Protection Components
 export { RequireAuth } from "./components/RequireAuth";
@@ -28,3 +29,15 @@ export {
   setNavigationAdapter,
 } from "./utils/navigation";
 export type { NavigationAdapter } from "./utils/navigation";
+
+// SSR Utilities
+export {
+  createServerAuth,
+  createNextServerAuth,
+  createAuthMiddleware,
+  getTokenFromRequest,
+  setAuthCookie,
+  clearAuthCookie,
+  type ServerAuthResult,
+  type AuthMiddlewareOptions,
+} from "./utils/ssr";

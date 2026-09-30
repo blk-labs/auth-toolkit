@@ -131,9 +131,9 @@ describe("AuthError Classes", () => {
     });
 
     it("returns HTTP status codes for Response objects", () => {
-      const resp401 = { status: 401 } as Response;
-      const resp403 = { status: 403 } as Response;
-      const resp500 = { status: 500 } as Response;
+      const resp401 = new Response(null, { status: 401 });
+      const resp403 = new Response(null, { status: 403 });
+      const resp500 = new Response(null, { status: 500 });
       expect(getAuthErrorCode(resp401)).toBe("UNAUTHORIZED");
       expect(getAuthErrorCode(resp403)).toBe("FORBIDDEN");
       expect(getAuthErrorCode(resp500)).toBe("HTTP_500");

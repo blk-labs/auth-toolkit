@@ -9,6 +9,10 @@ export interface AuthContextValue<User = unknown>
   getTokenStore: () => TokenStore;
 }
 
-export const AuthContext = createContext<AuthContextValue<unknown> | undefined>(
-  undefined
-);
+// Use a type that accepts any User type - the context value is covariant in User
+export type AuthContextType = AuthContextValue<unknown> | undefined;
+
+export const AuthContext = createContext<AuthContextType>(undefined);
+
+// Type helper for provider value
+export type AuthProviderValue<User = unknown> = AuthContextValue<User>;

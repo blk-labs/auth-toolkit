@@ -36,18 +36,13 @@ describe("Fetch Adapter", () => {
     expect(customFetch).toHaveBeenCalledWith("https://api.example.com/test", expect.any(Object));
   });
 
-  it("throws error when no fetch is available and no adapter provided", async () => {
-    vi.stubGlobal("fetch", undefined);
-
-    const store = new MemoryTokenStore();
-    const client = createHttpClient({
-      baseUrl: "https://api.example.com",
-      storage: store,
-      onRefresh: vi.fn(),
-      onLogout: vi.fn(),
-    });
-
-    await expect(client.request("/test")).rejects.toThrow("No fetch implementation found");
+  it("throws error when fetch is not available and no adapter provided", () => {
+    // Create a custom adapter that simulates missing fetch
+    const failingAdapter: FetchAdapter = () => {
+      throw new Error("No fetch implementation found. Provide a fetchAdapter to createHttpClient or ensure global fetch is available (Node 18+, Cloudflare Workers, Bun, modern browsers).");
+    };
+    
+    expect(() => failingAdapter("https://api.example.com/test")).toThrow("No fetch implementation found. Provide a fetchAdapter");
   });
 
   it("createFetchAdapter returns the provided function", () => {

@@ -2,39 +2,7 @@
 
 import { useRef, useEffect, useState, useCallback } from "react";
 import { useAuth } from "../hooks/useAuth";
-import { loadCoreModule } from "../utils/core-loader";
-import type { HttpClient } from "../types/core-exports";
-
-let cachedCreateFn: ((options: {
-  getAccessToken: () => string | null;
-  onLogout: () => void;
-}) => HttpClient) | null = null;
-let loadPromise: Promise<void> | null = null;
-
-
-function loadCreateHttpClientFn(): Promise<void> {
-  if (cachedCreateFn) {
-    return Promise.resolve();
-  }
-
-  if (loadPromise) {
-    return loadPromise;
-  }
-
-  loadPromise = loadCoreModule()
-    .then((core) => {
-      cachedCreateFn = core.createHttpClient;
-    })
-    .catch((error) => {
-      throw new Error(
-        "[useApi] Failed to load createHttpClient from @auth-toolkit/core. " +
-          "Ensure the core package is properly installed and exports createHttpClient. " +
-          `Original error: ${error instanceof Error ? error.message : String(error)}`
-      );
-    });
-
-  return loadPromise;
-}
+import { createHttpClient, type HttpClient } from "@auth-toolkit/core";
 
 export interface UseApiReturn {
   get: HttpClient["get"];
@@ -72,41 +40,35 @@ export interface UseApiReturn {
  * }
  * ```
  */
-export function useApi(): UseApiReturn {
-  const { logout, getTokenStore } = useAuth();
+export function useApi(baseUrl: string): UseApiReturn {
+  const { logout, getTokenStore, refresh } = useAuth();
   const clientRef = useRef<HttpClient | null>(null);
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
 
-    loadCreateHttpClientFn()
-      .then(() => {
-        if (cancelled || !cachedCreateFn || !getTokenStore) return;
+    const tokenStore = getTokenStore();
+    if (!tokenStore) {
+      return;
+    }
 
-        const tokenStore = getTokenStore();
-        const client = cachedCreateFn({
-          getAccessToken: () => tokenStore.getAccessToken(),
-          onLogout: () => {
-            logout();
-          },
-        });
+    const client = createHttpClient({
+      baseUrl,
+      storage: tokenStore,
+      onRefresh: () => refresh(),
+      onLogout: () => logout(),
+    });
 
-        if (!cancelled) {
-          clientRef.current = client;
-          setIsReady(true);
-        }
-      })
-      .catch((error) => {
-        if (!cancelled) {
-          console.error(error);
-        }
-      });
+    if (!cancelled) {
+      clientRef.current = client;
+      setIsReady(true);
+    }
 
     return () => {
       cancelled = true;
     };
-  }, [logout, getTokenStore]);
+  }, [baseUrl, logout, getTokenStore, refresh]);
 
   const get = useCallback<HttpClient["get"]>(
     (url: string, config?: RequestInit) => {

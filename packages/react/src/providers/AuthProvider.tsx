@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
-import { AuthContext, AuthContextValue } from "../context/AuthContext";
+import { AuthContext, AuthContextValue, AuthContextType } from "../context/AuthContext";
 import type { AuthState } from "@auth-toolkit/core";
 
 export interface AuthManagerLike<User = unknown> {
@@ -61,7 +61,7 @@ export function AuthProvider<User = unknown>({
     };
   }, [authManager]);
 
-  const value: AuthContextValue<User> = useMemo(
+  const value = useMemo(
     () => ({
       status,
       user,
@@ -74,7 +74,7 @@ export function AuthProvider<User = unknown>({
   );
 
   return (
-    <AuthContext.Provider value={value as AuthContextValue<unknown>}>
+    <AuthContext.Provider value={value as AuthContextType}>
       {children}
     </AuthContext.Provider>
   );

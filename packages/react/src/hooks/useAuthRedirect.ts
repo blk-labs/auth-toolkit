@@ -23,16 +23,12 @@
 import { useCallback } from "react";
 import { navigate, getCurrentPath } from "../utils/navigation";
 
-const INTENDED_ROUTE_KEY = "auth-toolkit.intendedRoute";
+const INTENDED_ROUTE_KEY = "auth_toolkit_return_to";
 
 export interface UseAuthRedirectReturn {
-  
   redirectAfterLogin: (defaultPath?: string) => void;
-
   redirectTo: (path: string) => void;
-
   redirectAfterLogout: () => void;
-
   consumeIntendedRoute: () => string | null;
 }
 
