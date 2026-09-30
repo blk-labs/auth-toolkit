@@ -74,7 +74,7 @@ describe('HttpClient: Concurrent 401 Recovery', () => {
     const requests = Array.from({ length: 3 }).map(() => client.request('/resource'));
 
     // AC: Errors propagate correctly to the original caller
-    await expect(Promise.all(requests)).rejects.toThrow('Refresh Token Expired');
+    await expect(Promise.all(requests)).rejects.toThrow('Token refresh failed');
 
     // AC: Refresh failure clears the session (via logout callback)
     expect(logoutSpy).toHaveBeenCalledTimes(1);

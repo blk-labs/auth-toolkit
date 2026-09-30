@@ -1,10 +1,14 @@
 import type { TokenStore } from "@auth/types";
+import type { FetchAdapter } from "./fetch-adapter.js";
+import { defaultFetchAdapter } from "./fetch-adapter.js";
+import { NetworkError, UnauthorizedError, isAuthError } from "./errors.js";
 
 interface HttpClientConfig {
   baseUrl: string;
   storage: TokenStore;
   onRefresh: () => Promise<string>;
   onLogout: () => void;
+  fetchAdapter?: FetchAdapter;
 }
 
 type Subscriber = {
@@ -18,6 +22,10 @@ export class HttpClient {
 
   constructor(private config: HttpClientConfig) {}
 
+  private getFetch(): FetchAdapter {
+    return this.config.fetchAdapter ?? defaultFetchAdapter;
+  }
+
   async request(path: string, options: RequestInit = {}): Promise<Response> {
     const url = `${this.config.baseUrl}${path}`;
 
@@ -28,7 +36,13 @@ export class HttpClient {
       headers.set("Authorization", `Bearer ${token}`);
     }
 
-    const response = await fetch(url, { ...options, headers });
+    let response: Response;
+    try {
+      response = await this.getFetch()(url, { ...options, headers });
+    } catch (error) {
+      if (isAuthError(error)) throw error;
+      throw new NetworkError("Network request failed", error);
+    }
 
     // 2. If 401, handle token refresh
     if (response.status === 401) {
@@ -65,9 +79,12 @@ export class HttpClient {
           const retryHeaders = new Headers(options.headers);
           retryHeaders.set("Authorization", `Bearer ${newToken}`);
 
-          fetch(url, { ...options, headers: retryHeaders })
+          this.getFetch()(url, { ...options, headers: retryHeaders })
             .then(resolve)
-            .catch(reject);
+            .catch((error) => {
+              if (isAuthError(error)) reject(error);
+              else reject(new NetworkError("Retry request failed", error));
+            });
         },
         reject: (error: unknown) => {
           reject(error);
@@ -84,8 +101,45 @@ export class HttpClient {
 
   private onRefreshFailed(error: unknown) {
     this.config.onLogout();
-    this.refreshSubscribers.forEach((sub) => sub.reject(error));
+    const authError = isAuthError(error)
+      ? error
+      : new UnauthorizedError("Token refresh failed");
+    this.refreshSubscribers.forEach((sub) => sub.reject(authError));
     this.refreshSubscribers = [];
+  }
+
+  get(url: string, config?: RequestInit): Promise<Response> {
+    return this.request(url, { ...config, method: "GET" });
+  }
+
+  post(url: string, body?: unknown, config?: RequestInit): Promise<Response> {
+    const headers = new Headers(config?.headers);
+    if (body && !headers.has("Content-Type")) {
+      headers.set("Content-Type", "application/json");
+    }
+    return this.request(url, {
+      ...config,
+      method: "POST",
+      headers,
+      body: body ? JSON.stringify(body) : null,
+    });
+  }
+
+  put(url: string, body?: unknown, config?: RequestInit): Promise<Response> {
+    const headers = new Headers(config?.headers);
+    if (body && !headers.has("Content-Type")) {
+      headers.set("Content-Type", "application/json");
+    }
+    return this.request(url, {
+      ...config,
+      method: "PUT",
+      headers,
+      body: body ? JSON.stringify(body) : null,
+    });
+  }
+
+  del(url: string, config?: RequestInit): Promise<Response> {
+    return this.request(url, { ...config, method: "DELETE" });
   }
 }
 

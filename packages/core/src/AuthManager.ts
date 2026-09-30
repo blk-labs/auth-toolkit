@@ -1,4 +1,5 @@
 import type { AuthListener, AuthState, TokenStore } from "@auth/types";
+import { setReturnTo, clearReturnTo, getReturnTo, consumeReturnTo } from "@/utils/helper.js";
 
 export interface RefreshResult<User> {
   accessToken: string;
@@ -68,6 +69,7 @@ export class AuthManager<T = unknown> {
   logout(): void {
     this.sessionVersion++;
     this.tokenStore.clear();
+    clearReturnTo();
     this.setState({ status: "unauthenticated", user: null });
   }
 
@@ -148,5 +150,21 @@ export class AuthManager<T = unknown> {
     } catch {
       this.logout();
     }
+  }
+
+  storeReturnTo(path: string): void {
+    setReturnTo(path);
+  }
+
+  getReturnTo(): string {
+    return getReturnTo();
+  }
+
+  consumeReturnTo(): string {
+    return consumeReturnTo();
+  }
+
+  clearReturnTo(): void {
+    clearReturnTo();
   }
 }
