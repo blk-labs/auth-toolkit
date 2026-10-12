@@ -1,4 +1,4 @@
-declare type User = {
+declare type User  = {
   id: string;
   name: string;
   email: string;

@@ -33,7 +33,6 @@ export type { NavigationAdapter } from "./utils/navigation";
 // SSR Utilities
 export {
   createServerAuth,
-  createNextServerAuth,
   createAuthMiddleware,
   getTokenFromRequest,
   setAuthCookie,

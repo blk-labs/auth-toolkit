@@ -7,7 +7,7 @@
     "apps/*"
   ],
   "scripts": {
-    "build": "npm run build --workspaces",
+    "build": "npm run build -w @auth-toolkit/core && npm run build -w @blk-auth-toolkit/react",
     "test": "npm test -ws --if-present",
     "test:core": "npm test -w @auth-toolkit/core"
   },

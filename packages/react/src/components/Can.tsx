@@ -11,27 +11,6 @@ export interface CanProps extends PropsWithChildren {
   resolver?: (user: AuthUser, action: string, resource: string) => boolean;
 } 
 
-/**
- * Can - RBAC Permission Component
- *
- * Conditionally renders children based on the current user's permissions.
- * Uses the `can()` function from @auth-toolkit/core under the hood.
- *
- * @example
- * ```tsx
- * <Can action="read" resource="document">
- *   <DocumentViewer />
- * </Can>
- *
- * <Can action="write" resource="document" fallback={<ReadOnlyBadge />}>
- *   <DocumentEditor />
- * </Can>
- *
- * <Can action="admin" resource="settings" resolver={customCheck}>
- *   <SettingsPanel />
- * </Can>
- * ```
- */
 export function Can({
   action,
   resource,

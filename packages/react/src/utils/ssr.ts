@@ -3,8 +3,9 @@ import { type AuthManager, type TokenStore, type AuthState } from "@auth-toolkit
 /**
  * SSR Auth Utilities
  *
- * Provides server-side authentication utilities for Next.js App Router,
- * Remix, and other SSR frameworks.
+ * Provides server-side authentication utilities for React SSR frameworks
+ * (e.g. Remix, custom Express setups). For Next.js support, wire up
+ * createServerAuth manually with your cookie adapter.
  */
 
 export interface ServerAuthResult<User = unknown> {
@@ -96,65 +97,7 @@ export function createServerAuth<User = unknown>(
   };
 }
 
-/**
- * Next.js App Router specific server auth
- * Uses cookies() from next/headers
- */
-export function createNextServerAuth<User = unknown>(authManager: AuthManager<User>) {
-  // Dynamic import to avoid bundling next/headers in non-Next.js environments
-  let cookiesPromise: Promise<{ get: (name: string) => { value: string } | undefined }> | null = null;
-  
-  const getCookies = async () => {
-    if (!cookiesPromise) {
-      cookiesPromise = (async () => {
-        try {
-          const nextHeaders = await import("next/headers");
-          return nextHeaders.cookies();
-        } catch {
-          throw new Error("createNextServerAuth requires Next.js. Install next@13+ or use createServerAuth instead.");
-        }
-      })();
-    }
-    return cookiesPromise;
-  };
 
-  return {
-    async getAuth(): Promise<ServerAuthResult<User>> {
-      const cookieStore = await getCookies();
-      const token = cookieStore.get("auth_token")?.value;
-      
-      if (!token) {
-        return { user: null, status: "unauthenticated", accessToken: null };
-      }
-
-      const originalToken = authManager.getTokenStore().getAccessToken();
-      authManager.getTokenStore().setAccessToken(token);
-      
-      try {
-        await authManager.bootstrapAuth();
-        const state = authManager.getState();
-        return {
-          user: state.user,
-          status: state.status,
-          accessToken: token,
-        };
-      } catch {
-        return { user: null, status: "unauthenticated", accessToken: null };
-      } finally {
-        if (originalToken) {
-          authManager.getTokenStore().setAccessToken(originalToken);
-        } else {
-          authManager.getTokenStore().clear();
-        }
-      }
-    },
-
-    async isAuthenticated(): Promise<boolean> {
-      const { status } = await this.getAuth();
-      return status === "authenticated";
-    },
-  };
-}
 
 /**
  * Creates a middleware function for Next.js App Router
