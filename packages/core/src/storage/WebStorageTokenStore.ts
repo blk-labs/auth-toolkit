@@ -1,18 +1,37 @@
 import type { TokenStore } from "@auth/types";
 
+function getStorage(storage?: Storage): Storage | null {
+  if (storage) return storage;
+  if (typeof window === "undefined") return null;
+  try {
+    const testKey = "__storage_test__";
+    window.localStorage.setItem(testKey, testKey);
+    window.localStorage.removeItem(testKey);
+    return window.localStorage;
+  } catch {
+    return null;
+  }
+}
+
 export class WebStorageTokenStore implements TokenStore {
   private storage: Storage | null;
   constructor(
     private key: string = "auth-toolkit.auth_token",
     storage?: Storage,
   ) {
-    this.storage =
-      storage ?? (typeof window !== "undefined" ? window.localStorage : null);
+    this.storage = getStorage(storage);
+  }
+
+  private getStore(): Storage | null {
+    if (!this.storage) {
+      this.storage = getStorage();
+    }
+    return this.storage;
   }
 
   getAccessToken(): string | null {
     try {
-      return this.storage?.getItem(this.key) ?? null;
+      return this.getStore()?.getItem(this.key) ?? null;
     } catch (error) {
       console.warn("Failed to retrieve auth token", error);
       return null;
@@ -21,7 +40,7 @@ export class WebStorageTokenStore implements TokenStore {
 
   setAccessToken(token: string): void {
     try {
-      this.storage?.setItem(this.key, token);
+      this.getStore()?.setItem(this.key, token);
     } catch (error) {
       console.warn("Failed to persist auth token", error);
     }
@@ -29,7 +48,7 @@ export class WebStorageTokenStore implements TokenStore {
 
   clear(): void {
     try {
-      this.storage?.removeItem(this.key);
+      this.getStore()?.removeItem(this.key);
     } catch {}
   }
 }

@@ -1,4 +1,5 @@
 import type { AuthListener, AuthState, TokenStore } from "@auth/types";
+import { setReturnTo, clearReturnTo, getReturnTo, consumeReturnTo } from "@/utils/helper.js";
 
 export interface RefreshResult<User> {
   accessToken: string;
@@ -6,19 +7,25 @@ export interface RefreshResult<User> {
 }
 
 export interface AuthManagerOptions<User> {
-  onRefresh?: (currentAccessToken: string | null) => Promise<RefreshResult<User>>;
+  onRefresh?: (
+    currentAccessToken: string | null,
+  ) => Promise<RefreshResult<User>>;
 }
 
 export class AuthManager<T = unknown> {
   private tokenStore: TokenStore;
   private options: AuthManagerOptions<T>;
-  private refreshRequest: { sessionVersion: number; promise: Promise<string> } | null = null;
+  private refreshRequest: {
+    sessionVersion: number;
+    promise: Promise<string>;
+  } | null = null;
   private sessionVersion = 0;
 
   constructor(tokenStore: TokenStore, options: AuthManagerOptions<T> = {}) {
     this.tokenStore = tokenStore;
     this.options = options;
   }
+
   private state: AuthState<T> = {
     status: "unknown",
     user: null,
@@ -28,6 +35,10 @@ export class AuthManager<T = unknown> {
 
   getState(): AuthState<T> {
     return this.state;
+  }
+
+  getTokenStore(): TokenStore {
+    return this.tokenStore;
   }
 
   subscribe(listener: AuthListener<T>): () => void {
@@ -51,15 +62,14 @@ export class AuthManager<T = unknown> {
     this.sessionVersion++;
     this.setState({ status: "loading" });
 
-    // Auth Logic
     this.tokenStore.setAccessToken(token);
-
     this.setState({ status: "authenticated", user });
   }
 
   logout(): void {
     this.sessionVersion++;
     this.tokenStore.clear();
+    clearReturnTo();
     this.setState({ status: "unauthenticated", user: null });
   }
 
@@ -79,17 +89,27 @@ export class AuthManager<T = unknown> {
         const result = await onRefresh(this.tokenStore.getAccessToken());
 
         if (sessionVersion !== this.sessionVersion) {
-          throw new Error("AuthManager refresh was cancelled by a session change");
+          throw new Error(
+            "AuthManager refresh was cancelled by a session change",
+          );
         }
-        if (!result || typeof result.accessToken !== "string" || !result.accessToken.trim()) {
-          throw new Error("AuthManager refresh returned an invalid access token");
+        if (
+          !result ||
+          typeof result.accessToken !== "string" ||
+          !result.accessToken.trim()
+        ) {
+          throw new Error(
+            "AuthManager refresh returned an invalid access token",
+          );
         }
 
         this.tokenStore.setAccessToken(result.accessToken);
+
         this.setState({
           status: "authenticated",
           user: result.user === undefined ? this.state.user : result.user,
         });
+
         return result.accessToken;
       } catch (error) {
         if (sessionVersion === this.sessionVersion) {
@@ -107,7 +127,7 @@ export class AuthManager<T = unknown> {
     return refreshPromise;
   }
 
- async updateToken(newToken: string): Promise<void> {
+  async updateToken(newToken: string): Promise<void> {
     this.tokenStore.setAccessToken(newToken);
   }
 
@@ -121,6 +141,30 @@ export class AuthManager<T = unknown> {
       return;
     }
 
-    this.setState({ status: "authenticated", user: null });
+    try {
+      if (this.options.onRefresh) {
+        await this.refresh();
+      } else {
+        this.setState({ status: "authenticated" });
+      }
+    } catch {
+      this.logout();
+    }
+  }
+
+  storeReturnTo(path: string): void {
+    setReturnTo(path);
+  }
+
+  getReturnTo(): string {
+    return getReturnTo();
+  }
+
+  consumeReturnTo(): string {
+    return consumeReturnTo();
+  }
+
+  clearReturnTo(): void {
+    clearReturnTo();
   }
 }

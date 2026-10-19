@@ -1,5 +1,5 @@
 import { useAuth, useAuthRedirect } from "@blk-auth-toolkit/react";
-import type { DemoUser } from "../auth";
+import useSession from "../hooks/useSession";
 
 const accountDetails = [
   { label: "Member since", value: "March 2025", color: "lilac" },
@@ -14,13 +14,16 @@ const recentActivity = [
 ] as const;
 
 export function UserPage() {
-  const { user, logout } = useAuth<DemoUser>();
+  const {session} = useSession()
+  const { user, logout } = useAuth<User>();
   const { redirectAfterLogout } = useAuthRedirect();
 
   function handleLogout() {
     logout();
     redirectAfterLogout();
   }
+
+  console.log(session)
 
   if (user?.role !== "member") {
     return (

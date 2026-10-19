@@ -1,0 +1,26 @@
+[22:35:42.796] [INFO] storybook v10.6.0
+[22:35:43.319] [WARN] As of Storybook 10.0, PnP is deprecated.
+If you are using PnP, you can continue to use Storybook 10.0, but we recommend migrating to a different package manager or linker-mode.
+
+In future versions, PnP compatibility will be removed.
+[22:35:45.427] [DEBUG] Getting package.json info for C:/Users/JOSEPH/Documents/auth-toolkit/apps/example-react/package.json...
+[22:35:45.774] [WARN] Could not resolve addon "@storybook/addon-links", skipping. Is it installed?
+[22:35:46.541] [ERROR] [38;2;241;97;97mError: @storybook/builder-vite tried to access vite (a peer dependency) but it isn't provided by your application; this makes the require call ambiguous and unsound.
+
+Required package: vite (via "vite\package.json")
+Required by: @storybook/builder-vite@virtual:47d0e59ca8a0d8bd63a75fa54bac83a2fc4bcf16952c6d3616e0c3ca8d437bd7a4c54c0c14eb733e15d57dddd2799f267f9f340e1314115bf98ac4c0fa5673f5#npm:10.6.0 (via C:\Users\JOSEPH\Documents\auth-toolkit\.yarn\__virtual__\@storybook-builder-vite-virtual-19224073a7\3\AppData\Local\Yarn\Berry\cache\@storybook-builder-vite-npm-10.6.0-ea4863d4a1-10c0.zip\node_modules\@storybook\builder-vite\dist\index.js)
+Ancestor breaking the chain: auth-toolkit@workspace:.
+
+[39m
+    at makeError (C:\Users\JOSEPH\AppData\Local\Temp\cc85fc1784349d83e4d93901c3e54a23.cjs:16801:34)
+    at resolveToUnqualified (C:\Users\JOSEPH\AppData\Local\Temp\cc85fc1784349d83e4d93901c3e54a23.cjs:18395:21)
+    at Object.resolveToUnqualified (C:\Users\JOSEPH\AppData\Local\Temp\cc85fc1784349d83e4d93901c3e54a23.cjs:18637:26)
+    at resolve$1 (file:///C:/Users/JOSEPH/AppData/Local/Temp/77058ab93b81f5f563ad11263c335d24.mjs:2036:31)
+    at nextResolve (node:internal/modules/esm/hooks:785:28)
+    at AsyncLoaderHooksOnLoaderHookWorker.resolve (node:internal/modules/esm/hooks:269:30)
+    at MessagePort.handleMessage (node:internal/modules/esm/worker:251:24)
+    at [nodejs.internal.kHybridDispatch] (node:internal/event_target:845:20)
+    at MessagePort.<anonymous> (node:internal/per_context/messageport:23:28)
+[22:35:46.551] [WARN] Broken build, fix the error above.
+You may need to refresh the browser.
+[22:35:46.576] [WARN] Could not resolve addon "@storybook/addon-links", skipping. Is it installed?

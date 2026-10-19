@@ -1,15 +1,30 @@
-const RETURN_TO_KEY = 'auth_toolkit_return_to'; 
+const RETURN_TO_KEY = 'auth_toolkit_return_to';
+
+function getSessionStorage(): Storage | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const testKey = "__storage_test__";
+    window.sessionStorage.setItem(testKey, testKey);
+    window.sessionStorage.removeItem(testKey);
+    return window.sessionStorage;
+  } catch {
+    return null;
+  }
+}
 
 export function setReturnTo(path: string): void {
-  sessionStorage.setItem(RETURN_TO_KEY, path);
+  const storage = getSessionStorage();
+  storage?.setItem(RETURN_TO_KEY, path);
 }
 
 export function clearReturnTo(): void {
-  sessionStorage.removeItem(RETURN_TO_KEY);
+  const storage = getSessionStorage();
+  storage?.removeItem(RETURN_TO_KEY);
 }
 
 export function getReturnTo(): string {
-  const path = sessionStorage.getItem(RETURN_TO_KEY);
+  const storage = getSessionStorage();
+  const path = storage?.getItem(RETURN_TO_KEY);
 
   if (!path) return '/';
 
@@ -20,5 +35,11 @@ export function getReturnTo(): string {
     return '/';
   }
 
+  return path;
+}
+
+export function consumeReturnTo(): string {
+  const path = getReturnTo();
+  clearReturnTo();
   return path;
 }

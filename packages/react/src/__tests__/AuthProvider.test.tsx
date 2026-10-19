@@ -173,7 +173,7 @@ describe("AuthProvider & useAuth", () => {
 
     const mockManager: AuthManagerLike<MockUser> = {
       ...base,
-      subscribe: vi.fn(() => unsubscribe()),
+      subscribe: vi.fn(() => unsubscribe),
     };
 
     const { unmount } = render(
