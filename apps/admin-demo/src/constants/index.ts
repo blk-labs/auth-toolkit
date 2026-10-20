@@ -1,4 +1,4 @@
 export const Identifier = {
-  storageKey: "admin-demo-auth-storage",
+  storageKey: 'admin-demo-auth-storage',
   store: localStorage,
 } as const;

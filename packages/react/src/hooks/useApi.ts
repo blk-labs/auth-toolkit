@@ -1,14 +1,15 @@
-"use client";
+'use client';
 
-import { useRef, useEffect, useState, useCallback } from "react";
-import { useAuth } from "../hooks/useAuth";
-import { createHttpClient, type HttpClient } from "@auth-toolkit/core";
+import { createHttpClient, type HttpClient } from '@auth-toolkit/core';
+import { useRef, useEffect, useState, useCallback } from 'react';
+
+import { useAuth } from '../hooks/useAuth';
 
 export interface UseApiReturn {
-  get: HttpClient["get"];
-  post: HttpClient["post"];
-  put: HttpClient["put"];
-  del: HttpClient["del"];
+  get: HttpClient['get'];
+  post: HttpClient['post'];
+  put: HttpClient['put'];
+  del: HttpClient['del'];
   isReady: boolean;
 }
 
@@ -70,53 +71,39 @@ export function useApi(baseUrl: string): UseApiReturn {
     };
   }, [baseUrl, logout, getTokenStore, refresh]);
 
-  const get = useCallback<HttpClient["get"]>(
-    (url: string, config?: RequestInit) => {
-      if (!clientRef.current) {
-        return Promise.reject(
-          new Error("[useApi] HTTP client is not ready yet.")
-        );
-      }
-      return clientRef.current.get(url, config);
-    },
-    []
-  );
+  const get = useCallback<HttpClient['get']>((url: string, config?: RequestInit) => {
+    if (!clientRef.current) {
+      return Promise.reject(new Error('[useApi] HTTP client is not ready yet.'));
+    }
+    return clientRef.current.get(url, config);
+  }, []);
 
-  const post = useCallback<HttpClient["post"]>(
+  const post = useCallback<HttpClient['post']>(
     (url: string, body?: unknown, config?: RequestInit) => {
       if (!clientRef.current) {
-        return Promise.reject(
-          new Error("[useApi] HTTP client is not ready yet.")
-        );
+        return Promise.reject(new Error('[useApi] HTTP client is not ready yet.'));
       }
       return clientRef.current.post(url, body, config);
     },
     []
   );
 
-  const put = useCallback<HttpClient["put"]>(
+  const put = useCallback<HttpClient['put']>(
     (url: string, body?: unknown, config?: RequestInit) => {
       if (!clientRef.current) {
-        return Promise.reject(
-          new Error("[useApi] HTTP client is not ready yet.")
-        );
+        return Promise.reject(new Error('[useApi] HTTP client is not ready yet.'));
       }
       return clientRef.current.put(url, body, config);
     },
     []
   );
 
-  const del = useCallback<HttpClient["del"]>(
-    (url: string, config?: RequestInit) => {
-      if (!clientRef.current) {
-        return Promise.reject(
-          new Error("[useApi] HTTP client is not ready yet.")
-        );
-      }
-      return clientRef.current.del(url, config);
-    },
-    []
-  );
+  const del = useCallback<HttpClient['del']>((url: string, config?: RequestInit) => {
+    if (!clientRef.current) {
+      return Promise.reject(new Error('[useApi] HTTP client is not ready yet.'));
+    }
+    return clientRef.current.del(url, config);
+  }, []);
 
   return {
     get,

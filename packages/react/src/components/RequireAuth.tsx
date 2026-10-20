@@ -1,10 +1,9 @@
-"use client";
+'use client';
 
-import React, { useEffect } from "react";
-import { useAuth } from "../hooks/useAuth";
-import { navigate, getCurrentPath } from "../utils/navigation";
+import { useEffect } from 'react';
 
-const INTENDED_ROUTE_KEY = "auth_toolkit_return_to";
+import { useAuth } from '../hooks/useAuth';
+import { navigate, getCurrentPath } from '../utils/navigation';
 
 export interface RequireAuthProps {
   children: React.ReactNode;
@@ -16,8 +15,8 @@ export interface RequireAuthProps {
  * RequireAuth - Route Protection Component
  *
  * Redirects unauthenticated users to the login page and stores the intended
- * destination in sessionStorage. After login, the destination can be restored
- * using the `useAuthRedirect` hook.
+ * destination using the AuthManager's returnTo mechanism. After login, the
+ * destination can be restored using the `useAuthRedirect` hook.
  *
  * @example
  * ```tsx
@@ -32,13 +31,13 @@ export interface RequireAuthProps {
  */
 export function RequireAuth({
   children,
-  redirectTo = "/login",
+  redirectTo = '/login',
   loading = null,
 }: RequireAuthProps): React.ReactElement | null {
-  const { user, status } = useAuth();
+  const { user, status, storeReturnTo } = useAuth();
 
-  const isAuthenticated = status === "authenticated" && user;
-  const isLoading = status === "loading" || status === "unknown";
+  const isAuthenticated = status === 'authenticated' && user;
+  const isLoading = status === 'loading' || status === 'unknown';
 
   useEffect(() => {
     if (isLoading) {
@@ -49,22 +48,15 @@ export function RequireAuth({
       const currentPath = getCurrentPath();
       const isOnLoginPage =
         currentPath === redirectTo ||
-        currentPath === redirectTo + "/" ||
-        currentPath.startsWith(redirectTo + "?");
+        currentPath === redirectTo + '/' ||
+        currentPath.startsWith(redirectTo + '?');
 
       if (!isOnLoginPage) {
-        if (typeof window !== "undefined" && window.sessionStorage) {
-          try {
-            window.sessionStorage.setItem(INTENDED_ROUTE_KEY, currentPath);
-          } catch {
-          }
-        }
-
-        // Redirect to login
+        storeReturnTo(currentPath);
         navigate(redirectTo);
       }
     }
-  }, [isAuthenticated, isLoading, redirectTo]);
+  }, [isAuthenticated, isLoading, redirectTo, storeReturnTo]);
 
   if (isLoading) {
     return loading as React.ReactElement | null;

@@ -1,13 +1,15 @@
-import { setNavigationAdapter } from "@blk-auth-toolkit/react";
+import { setNavigationAdapter } from '@auth-toolkit/react';
 
 export function navigateTo(path: string, replace = false): void {
   if (replace) {
-    window.history.replaceState(null, "", path);
+    window.history.replaceState(null, '', path);
   } else {
-    window.history.pushState(null, "", path);
+    window.history.pushState(null, '', path);
   }
-  window.dispatchEvent(new PopStateEvent("popstate"));
+  window.dispatchEvent(new PopStateEvent('popstate'));
 }
+
+export const navigate = navigateTo;
 
 setNavigationAdapter({
   navigate: navigateTo,

@@ -1,10 +1,10 @@
-import type { TokenStore } from "@auth/types";
+import type { TokenStore } from '@auth/types';
 
 function getStorage(storage?: Storage): Storage | null {
   if (storage) return storage;
-  if (typeof window === "undefined") return null;
+  if (typeof window === 'undefined') return null;
   try {
-    const testKey = "__storage_test__";
+    const testKey = '__storage_test__';
     window.localStorage.setItem(testKey, testKey);
     window.localStorage.removeItem(testKey);
     return window.localStorage;
@@ -16,8 +16,8 @@ function getStorage(storage?: Storage): Storage | null {
 export class WebStorageTokenStore implements TokenStore {
   private storage: Storage | null;
   constructor(
-    private key: string = "auth-toolkit.auth_token",
-    storage?: Storage,
+    private key: string = 'auth-toolkit.auth_token',
+    storage?: Storage
   ) {
     this.storage = getStorage(storage);
   }
@@ -33,7 +33,7 @@ export class WebStorageTokenStore implements TokenStore {
     try {
       return this.getStore()?.getItem(this.key) ?? null;
     } catch (error) {
-      console.warn("Failed to retrieve auth token", error);
+      console.warn('Failed to retrieve auth token', error);
       return null;
     }
   }
@@ -42,7 +42,7 @@ export class WebStorageTokenStore implements TokenStore {
     try {
       this.getStore()?.setItem(this.key, token);
     } catch (error) {
-      console.warn("Failed to persist auth token", error);
+      console.warn('Failed to persist auth token', error);
     }
   }
 

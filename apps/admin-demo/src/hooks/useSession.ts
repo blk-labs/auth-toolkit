@@ -1,16 +1,18 @@
-import { useAuth } from "@blk-auth-toolkit/react";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { AuthLogin } from "../api/login";
-import { toast } from "react-hot-toast";
-import { navigateTo } from "../navigation";
-import useFetch from "./useFetch";
+import { useAuth, useAuthRedirect } from '@auth-toolkit/react';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { toast } from 'react-hot-toast';
+
+import { AuthLogin } from '../api/login';
+import { navigate } from '../navigation';
+
+import useFetch from './useFetch';
 
 export default function useSession() {
   const { get } = useFetch();
   const { data, isLoading, refetch, error } = useQuery({
-    queryKey: ["user-session"],
+    queryKey: ['user-session'],
     queryFn: async () => {
-      const res = await get("/api/session");
+      const res = await get('/api/session');
       return res.json() as Promise<BaseBackendResponse<User>>;
     },
   });
@@ -24,13 +26,15 @@ export default function useSession() {
 
 export function useLogin() {
   const { login } = useAuth();
+  const { consumeReturnTo } = useAuthRedirect();
   const { mutate, isPending } = useMutation({
     mutationFn: AuthLogin,
 
     onSuccess: async (data) => {
       const res = data.data;
       await login(res.user, res.accessToken);
-      navigateTo("/auth-redirect", true);
+      const returnTo = consumeReturnTo();
+      navigate(returnTo || '/', true);
     },
 
     onError: (err) => toast.error(err.message),

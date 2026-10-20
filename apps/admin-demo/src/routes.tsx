@@ -1,14 +1,15 @@
-import { createBrowserRouter } from "react-router-dom";
-import { RequireAuth, RequireGuest } from "@blk-auth-toolkit/react";
-import { LoginPage } from "./pages/LoginPage";
-import { DashboardPage } from "./pages/DashboardPage";
-import { UserPage } from "./pages/UserPage";
-import AuthRedirect from "./pages/authRedirect";
-import { PageLoader } from "./components/Loader";
+import { RequireAuth, RequireGuest } from '@auth-toolkit/react';
+import { createBrowserRouter } from 'react-router-dom';
+
+import { PageLoader } from './components/Loader';
+import AuthRedirect from './pages/authRedirect';
+import { DashboardPage } from './pages/DashboardPage';
+import { LoginPage } from './pages/LoginPage';
+import { UserPage } from './pages/UserPage';
 
 export const router = createBrowserRouter([
   {
-    path: "/login",
+    path: '/login',
     element: (
       <RequireGuest redirectTo="/">
         <LoginPage />
@@ -16,7 +17,7 @@ export const router = createBrowserRouter([
     ),
   },
   {
-    path: "/admin",
+    path: '/admin',
     element: (
       <RequireAuth redirectTo="/login" loading={<PageLoader />}>
         <DashboardPage />
@@ -24,7 +25,7 @@ export const router = createBrowserRouter([
     ),
   },
   {
-    path: "/",
+    path: '/',
     element: (
       <RequireAuth redirectTo="/login" loading={<PageLoader />}>
         <UserPage />
@@ -32,7 +33,7 @@ export const router = createBrowserRouter([
     ),
   },
   {
-    path: "/auth-redirect",
+    path: '/auth-redirect',
     element: <AuthRedirect />,
   },
 ]);

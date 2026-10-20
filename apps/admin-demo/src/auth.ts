@@ -1,17 +1,16 @@
-import { AuthManager, WebStorageTokenStore } from "@auth-toolkit/core";
-import { Identifier } from "./constants";
-import axios from "axios";
+import { createAuthManager } from '@auth-toolkit/react';
+import axios from 'axios';
 
-const storage = new WebStorageTokenStore(
-  Identifier.storageKey,
-  Identifier.store,
-);
-export const authManager = new AuthManager<User>(storage, {
+import { Identifier } from './constants';
+
+export const authManager = createAuthManager<User>({
+  storage: 'localStorage',
+  storageKey: Identifier.storageKey,
   onRefresh: async (currentToken) => {
-    const res = await axios.post("/api/auth/refresh", { currentToken });
+    const res = await axios.post('/api/auth/refresh', { currentToken });
     const data = await res.data.data;
 
-    console.log(data)
+    console.log(data);
 
     return {
       accessToken: data.accessToken,

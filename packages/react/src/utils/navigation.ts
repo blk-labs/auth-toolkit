@@ -25,10 +25,10 @@ export function setNavigationAdapter(adapter: NavigationAdapter): void {
  * Detect if we're running in a Next.js App Router environment.
  * Next.js exposes `next/navigation` on the client side.
  */
-function isNextJsAppRouter(): boolean {
-  if (typeof window === "undefined") return false;
+function _isNextJsAppRouter(): boolean {
+  if (typeof window === 'undefined') return false;
   // Next.js exposes internal routing markers
-  return !!(window as any).__NEXT_DATA__;
+  return '__NEXT_DATA__' in window;
 }
 
 /**
@@ -36,8 +36,8 @@ function isNextJsAppRouter(): boolean {
  * React Router doesn't expose global markers, so we rely on
  * the presence of a registered adapter or default to history API.
  */
-function isReactRouter(): boolean {
-  return typeof window !== "undefined" && !!window.history;
+function _isReactRouter(): boolean {
+  return typeof window !== 'undefined' && !!window.history;
 }
 
 /**
@@ -51,7 +51,7 @@ export function navigate(path: string, replace = false): void {
   }
 
   // Fallback to window.location or history API
-  if (typeof window !== "undefined") {
+  if (typeof window !== 'undefined') {
     if (replace) {
       window.location.replace(path);
     } else {
@@ -69,11 +69,11 @@ export function getCurrentPath(): string {
     return customAdapter.getCurrentPath();
   }
 
-  if (typeof window !== "undefined") {
+  if (typeof window !== 'undefined') {
     return window.location.pathname + window.location.search;
   }
 
-  return "/";
+  return '/';
 }
 
 /**
@@ -81,5 +81,5 @@ export function getCurrentPath(): string {
  */
 export function isCurrentPath(path: string): boolean {
   const current = getCurrentPath();
-  return current === path || current === path + "/";
+  return current === path || current === path + '/';
 }

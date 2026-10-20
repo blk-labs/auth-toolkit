@@ -1,0 +1,17 @@
+{
+  "entryPoints": ["packages/core/src/index.ts", "packages/react/src/index.ts"],
+  "out": "docs/api",
+  "plugin": ["typedoc-plugin-markdown"],
+  "tsconfig": "packages/core/tsconfig.json",
+  "readme": "README.md",
+  "name": "Auth Toolkit",
+  "includeVersion": true,
+  "excludeExternals": true,
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "categorizeByGroup": true,
+  "defaultCategory": "Core",
+  "categoryOrder": ["Core", "React", "Storage", "RBAC", "HTTP", "SSR", "Utilities"],
+  "groupOrder": ["Classes", "Interfaces", "Types", "Functions", "Variables"],
+  "sort": ["source-order"]
+}

@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
+
 import { createHttpClient } from '../https.js';
 import { MemoryTokenStore } from '../storage/MemoryTokenStore.js';
 
@@ -15,15 +16,15 @@ describe('HttpClient: Concurrent 401 Recovery', () => {
   it('Integration: 5 simultaneous 401s → 1 refresh → 5 retries', async () => {
     const refreshSpy = vi.fn().mockResolvedValue('new-valid-token');
     const logoutSpy = vi.fn();
-    
+
     const client = new createHttpClient({
       baseUrl: mockBaseUrl,
       storage: store,
       onRefresh: refreshSpy,
-      onLogout: logoutSpy
+      onLogout: logoutSpy,
     });
 
-    // Mock logic: 
+    // Mock logic:
     // First 5 calls (initial attempts) return 401.
     // Subsequent calls (retries) return 200.
     let callCount = 0;
@@ -32,10 +33,10 @@ describe('HttpClient: Concurrent 401 Recovery', () => {
       if (callCount <= 5) {
         return { status: 401 } as Response;
       }
-      return { 
-        status: 200, 
+      return {
+        status: 200,
         ok: true,
-        json: async () => ({ data: 'success' }) 
+        json: async () => ({ data: 'success' }),
       } as Response;
     });
 
@@ -47,7 +48,7 @@ describe('HttpClient: Concurrent 401 Recovery', () => {
     expect(refreshSpy).toHaveBeenCalledTimes(1);
 
     // AC: All requests queued during refresh are retried automatically after success
-    expect(results.every(res => res.status === 200)).toBe(true);
+    expect(results.every((res) => res.status === 200)).toBe(true);
 
     // AC: Token store updated with new token
     expect(store.getAccessToken()).toBe('new-valid-token');
@@ -59,12 +60,12 @@ describe('HttpClient: Concurrent 401 Recovery', () => {
   it('Refresh failure: clears session and rejects all queued requests', async () => {
     const refreshSpy = vi.fn().mockRejectedValue(new Error('Refresh Token Expired'));
     const logoutSpy = vi.fn();
-    
+
     const client = new createHttpClient({
       baseUrl: mockBaseUrl,
       storage: store,
       onRefresh: refreshSpy,
-      onLogout: logoutSpy
+      onLogout: logoutSpy,
     });
 
     // Mock all fetch calls to return 401
@@ -78,7 +79,7 @@ describe('HttpClient: Concurrent 401 Recovery', () => {
 
     // AC: Refresh failure clears the session (via logout callback)
     expect(logoutSpy).toHaveBeenCalledTimes(1);
-    
+
     // AC: No dangling promises (the await expect above proves they were rejected)
   });
 });

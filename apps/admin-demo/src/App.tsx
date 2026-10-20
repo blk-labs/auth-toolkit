@@ -1,11 +1,9 @@
-import {
-  AuthProvider,
+import { AuthProvider } from '@auth-toolkit/react';
+import { RouterProvider } from 'react-router-dom';
 
-} from "@blk-auth-toolkit/react";
-import { RouterProvider } from "react-router-dom";
-import { authManager } from "./auth";
-import { router } from "./routes";
-import QueryProvider from "./providers/QueryProvider";
+import { authManager } from './auth';
+import QueryProvider from './providers/QueryProvider';
+import { router } from './routes';
 
 export function App() {
   return (

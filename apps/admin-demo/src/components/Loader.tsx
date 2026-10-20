@@ -1,66 +1,64 @@
 export interface LoaderProps {
-  size?: "sm" | "md" | "lg";
-  variant?: "spinner" | "dots" | "pulse";
-  color?: "primary" | "coral" | "mint" | "lilac" | "yellow" | "white";
+  size?: 'sm' | 'md' | 'lg';
+  variant?: 'spinner' | 'dots' | 'pulse';
+  color?: 'primary' | 'coral' | 'mint' | 'lilac' | 'yellow' | 'white';
   label?: string;
   className?: string;
 }
 
 export function Loader({
-  size = "md",
-  variant = "spinner",
-  color = "primary",
+  size = 'md',
+  variant = 'spinner',
+  color = 'primary',
   label,
-  className = "",
+  className = '',
 }: LoaderProps): React.ReactElement {
   const sizeClasses = {
-    sm: "loader-sm",
-    md: "loader-md",
-    lg: "loader-lg",
+    sm: 'loader-sm',
+    md: 'loader-md',
+    lg: 'loader-lg',
   };
 
   const colorClasses = {
-    primary: "loader-primary",
-    coral: "loader-coral",
-    mint: "loader-mint",
-    lilac: "loader-lilac",
-    yellow: "loader-yellow",
-    white: "loader-white",
+    primary: 'loader-primary',
+    coral: 'loader-coral',
+    mint: 'loader-mint',
+    lilac: 'loader-lilac',
+    yellow: 'loader-yellow',
+    white: 'loader-white',
   };
 
   const variantClasses = {
-    spinner: "loader-spinner",
-    dots: "loader-dots",
-    pulse: "loader-pulse",
+    spinner: 'loader-spinner',
+    dots: 'loader-dots',
+    pulse: 'loader-pulse',
   };
 
   const baseClasses = `loader ${sizeClasses[size]} ${colorClasses[color]} ${variantClasses[variant]} ${className}`;
 
-  if (variant === "spinner") {
+  if (variant === 'spinner') {
     return (
-      <div
-        className={baseClasses}
-        role="status"
-        aria-live="polite"
-        aria-label={label || "Loading"}
-      >
+      <div className={baseClasses} role="status" aria-live="polite" aria-label={label || 'Loading'}>
         <svg className="loader-svg" viewBox="0 0 50 50" aria-hidden="true">
           <circle className="loader-track" cx="25" cy="25" r="20" fill="none" strokeWidth="4" />
-          <circle className="loader-fill" cx="25" cy="25" r="20" fill="none" strokeWidth="4" strokeLinecap="round" />
+          <circle
+            className="loader-fill"
+            cx="25"
+            cy="25"
+            r="20"
+            fill="none"
+            strokeWidth="4"
+            strokeLinecap="round"
+          />
         </svg>
         {label && <span className="loader-label">{label}</span>}
       </div>
     );
   }
 
-  if (variant === "dots") {
+  if (variant === 'dots') {
     return (
-      <div
-        className={baseClasses}
-        role="status"
-        aria-live="polite"
-        aria-label={label || "Loading"}
-      >
+      <div className={baseClasses} role="status" aria-live="polite" aria-label={label || 'Loading'}>
         <span className="loader-dot" aria-hidden="true" />
         <span className="loader-dot" aria-hidden="true" />
         <span className="loader-dot" aria-hidden="true" />
@@ -70,12 +68,7 @@ export function Loader({
   }
 
   return (
-    <div
-      className={baseClasses}
-      role="status"
-      aria-live="polite"
-      aria-label={label || "Loading"}
-    >
+    <div className={baseClasses} role="status" aria-live="polite" aria-label={label || 'Loading'}>
       <span className="loader-pulse-ring" aria-hidden="true" />
       <span className="loader-pulse-ring" aria-hidden="true" />
       <span className="loader-pulse-ring" aria-hidden="true" />
@@ -84,37 +77,24 @@ export function Loader({
   );
 }
 
-export function PageLoader({
-  label = "Loading…",
-}: {
-  label?: string;
-}): React.ReactElement {
+export function PageLoader({ label = 'Loading…' }: { label?: string }): React.ReactElement {
   return (
-    <div
-      className="page-loader"
-      role="status"
-      aria-live="polite"
-      aria-label={label}
-    >
-      <Loader  size="lg" variant="spinner" color="primary" />
+    <div className="page-loader" role="status" aria-live="polite" aria-label={label}>
+      <Loader size="lg" variant="spinner" color="primary" />
     </div>
   );
 }
 
 export function InlineLoader({
   label,
-  color
+  color,
 }: {
   label?: string;
-  color?: "primary" | "coral" | "mint" | "lilac" | "yellow" | "white";
+  color?: 'primary' | 'coral' | 'mint' | 'lilac' | 'yellow' | 'white';
 }): React.ReactElement {
   return <Loader size="sm" variant="spinner" color={color} label={label} />;
 }
 
-export function ButtonLoader({
-  label = "Loading…",
-}: {
-  label?: string;
-}): React.ReactElement {
+export function ButtonLoader({ label = 'Loading…' }: { label?: string }): React.ReactElement {
   return <Loader size="sm" variant="spinner" color="primary" label={label} />;
 }
