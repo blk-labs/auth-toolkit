@@ -158,5 +158,27 @@
       { "title": "Account created", "detail": "Welcome to the platform", "time": "2 weeks ago", "color": "lilac" },
       { "title": "First login", "detail": "Completed onboarding", "time": "2 weeks ago", "color": "mint" }
     ]
+  },
+  {
+    "id": "usr-011",
+    "name": "Admin User",
+    "email": "admin@mail.com",
+    "password": "password123",
+    "role": "admin",
+    "created_at": "2026-10-22T00:00:00Z",
+    "last_login": null,
+    "active_sessions": 0,
+    "security_log": []
+  },
+  {
+    "id": "usr-012",
+    "name": "Member User",
+    "email": "member@mail.com",
+    "password": "password123",
+    "role": "member",
+    "created_at": "2026-10-22T00:00:00Z",
+    "last_login": null,
+    "active_sessions": 0,
+    "security_log": []
   }
 ]

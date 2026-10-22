@@ -1,4 +1,4 @@
-import { RequireAuth, RequireGuest } from '@auth-toolkit/react';
+import { RequireAuth } from '@auth-toolkit/react';
 import { createBrowserRouter } from 'react-router-dom';
 
 import { PageLoader } from './components/Loader';
@@ -11,9 +11,7 @@ export const router = createBrowserRouter([
   {
     path: '/login',
     element: (
-      <RequireGuest redirectTo="/">
         <LoginPage />
-      </RequireGuest>
     ),
   },
   {

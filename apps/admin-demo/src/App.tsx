@@ -1,4 +1,5 @@
 import { AuthProvider } from '@auth-toolkit/react';
+import { Toaster } from 'react-hot-toast';
 import { RouterProvider } from 'react-router-dom';
 
 import { authManager } from './auth';
@@ -10,6 +11,7 @@ export function App() {
     <AuthProvider authManager={authManager}>
       <QueryProvider>
         <RouterProvider router={router} />
+        <Toaster position="top-right" />
       </QueryProvider>
     </AuthProvider>
   );

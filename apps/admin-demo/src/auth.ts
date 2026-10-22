@@ -12,9 +12,11 @@ export const authManager = createAuthManager<User>({
 
     console.log(data);
 
+    const user = data.user ? { ...data.user, roles: [data.user.role] } : null;
+
     return {
       accessToken: data.accessToken,
-      user: data.user,
+      user,
     };
   },
 });

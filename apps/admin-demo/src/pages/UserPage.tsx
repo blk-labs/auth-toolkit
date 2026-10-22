@@ -1,4 +1,6 @@
+import { useEffect } from 'react';
 import { useAuth, useAuthRedirect, useHasRole, Can } from '@auth-toolkit/react';
+import { navigate } from '../navigation';
 
 import useSession from '../hooks/useSession';
 
@@ -29,6 +31,12 @@ export function UserPage() {
   const { user, logout } = useAuth<User>();
   const { redirectAfterLogout } = useAuthRedirect();
   const checkRole = useHasRole();
+
+  useEffect(() => {
+    if (user && checkRole('admin')) {
+      navigate('/auth-redirect', true);
+    }
+  }, [user, checkRole]);
 
   function handleLogout() {
     logout();

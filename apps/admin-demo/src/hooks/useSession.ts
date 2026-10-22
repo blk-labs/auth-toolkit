@@ -32,9 +32,10 @@ export function useLogin() {
 
     onSuccess: async (data) => {
       const res = data.data;
-      await login(res.user, res.accessToken);
+      const user = { ...res.user, roles: [res.user.role] };
+      await login(user, res.accessToken);
       const returnTo = consumeReturnTo();
-      navigate(returnTo || '/', true);
+      navigate(returnTo || '/auth-redirect', true);
     },
 
     onError: (err) => toast.error(err.message),
