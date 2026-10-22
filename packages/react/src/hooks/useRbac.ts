@@ -1,8 +1,9 @@
-"use client";
+'use client';
 
-import { useMemo } from "react";
-import { useAuth } from "./useAuth";
-import { can, hasRole, hasAnyRole, type AuthUser } from "@auth-toolkit/core";
+import { can, hasRole, hasAnyRole, type AuthUser } from '@auth-toolkit/core';
+import { useMemo } from 'react';
+
+import { useAuth } from './useAuth';
 
 /**
  * useCan Hook
@@ -13,7 +14,7 @@ import { can, hasRole, hasAnyRole, type AuthUser } from "@auth-toolkit/core";
  * ```tsx
  * function DocumentViewer() {
  *   const canRead = useCan("read", "document");
- *   
+ *
  *   if (!canRead()) {
  *     return <AccessDenied />;
  *   }
@@ -23,14 +24,19 @@ import { can, hasRole, hasAnyRole, type AuthUser } from "@auth-toolkit/core";
  */
 export function useCan() {
   const { user } = useAuth<AuthUser>();
-  
+
   const checkPermission = useMemo(
-    () => (action: string, resource: string, resolver?: (user: AuthUser, action: string, resource: string) => boolean) => {
-      return can(user as AuthUser | null, action, resource, resolver);
-    },
+    () =>
+      (
+        action: string,
+        resource: string,
+        resolver?: (user: AuthUser, action: string, resource: string) => boolean
+      ) => {
+        return can(user as AuthUser | null, action, resource, resolver);
+      },
     [user]
   );
-  
+
   return checkPermission;
 }
 
@@ -43,7 +49,7 @@ export function useCan() {
  * ```tsx
  * function AdminPanel() {
  *   const hasAdminRole = useHasRole("admin");
- *   
+ *
  *   if (!hasAdminRole()) {
  *     return <AccessDenied />;
  *   }
@@ -53,14 +59,14 @@ export function useCan() {
  */
 export function useHasRole() {
   const { user } = useAuth<AuthUser>();
-  
+
   const checkRole = useMemo(
     () => (role: string) => {
       return hasRole(user as AuthUser | null, role);
     },
     [user]
   );
-  
+
   return checkRole;
 }
 
@@ -73,7 +79,7 @@ export function useHasRole() {
  * ```tsx
  * function ManagerDashboard() {
  *   const hasManagerRole = useHasAnyRole(["admin", "manager"]);
- *   
+ *
  *   if (!hasManagerRole()) {
  *     return <AccessDenied />;
  *   }
@@ -83,14 +89,14 @@ export function useHasRole() {
  */
 export function useHasAnyRole() {
   const { user } = useAuth<AuthUser>();
-  
+
   const checkRoles = useMemo(
     () => (roles: string[]) => {
       return hasAnyRole(user as AuthUser | null, roles);
     },
     [user]
   );
-  
+
   return checkRoles;
 }
 

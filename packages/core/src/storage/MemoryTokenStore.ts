@@ -1,4 +1,4 @@
-import type { TokenStore } from "@auth/types";
+import type { TokenStore } from '@auth/types';
 
 export class MemoryTokenStore implements TokenStore {
   private _token: string | null = null;

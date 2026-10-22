@@ -5,8 +5,8 @@
     "rootDir": ".",
     "paths": {
       "@/*": ["./src/*"],
-       "@core/*": ["./src/*"],
-       "@auth/types": ["./src/types/index.ts"]
+      "@core/*": ["./src/*"],
+      "@auth/types": ["./src/types/index.ts"]
     }
   },
   "include": ["src/**/*.ts", "./src/types/**/*.ts"],

@@ -1,5 +1,5 @@
 {
-  "name": "@blk-auth-toolkit/react",
+  "name": "@auth-toolkit/react",
   "version": "1.0.0",
   "description": "React integration for auth-toolkit",
   "main": "dist/index.js",
@@ -8,7 +8,8 @@
   "scripts": {
     "build": "tsup src/index.ts --format esm,cjs --dts --external next/headers",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
   },
   "keywords": [],
   "author": "blk-labs",

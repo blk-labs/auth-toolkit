@@ -1,6 +1,7 @@
 # Security
 
-This authentication toolkit provides flexible token storage adapters. Each storage strategy has different security implications.
+This authentication toolkit provides flexible token storage adapters. Each storage strategy has different security
+implications.
 
 ---
 

@@ -1,15 +1,17 @@
-"use client";
+'use client';
 
-import React, { useEffect, useState, type PropsWithChildren } from "react";
-import { useAuth } from "../hooks/useAuth";
-import { can, hasRole, hasAnyRole, type AuthUser } from "@auth-toolkit/core";
+import { can, type AuthUser } from '@auth-toolkit/core';
+import type React from 'react';
+import { type PropsWithChildren } from 'react';
+
+import { useAuth } from '../hooks/useAuth';
 
 export interface CanProps extends PropsWithChildren {
   action: string;
   resource: string;
   fallback?: React.ReactNode;
   resolver?: (user: AuthUser, action: string, resource: string) => boolean;
-} 
+}
 
 export function Can({
   action,

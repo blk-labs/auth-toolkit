@@ -1,9 +1,9 @@
 const RETURN_TO_KEY = 'auth_toolkit_return_to';
 
 function getSessionStorage(): Storage | null {
-  if (typeof window === "undefined") return null;
+  if (typeof window === 'undefined') return null;
   try {
-    const testKey = "__storage_test__";
+    const testKey = '__storage_test__';
     window.sessionStorage.setItem(testKey, testKey);
     window.sessionStorage.removeItem(testKey);
     return window.sessionStorage;

@@ -45,7 +45,7 @@ export function parseTokenResponse(response: TokenResponse): TokenPair {
           issuedAt: now,
         }
       : {
-          token: "",
+          token: '',
           issuedAt: now,
         },
   };

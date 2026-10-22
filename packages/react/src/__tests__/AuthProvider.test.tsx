@@ -1,10 +1,11 @@
-import React from "react";
-import { render, screen, act } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import { AuthProvider } from "../providers/AuthProvider";
-import { useAuth } from "../hooks/useAuth";
-import type { AuthManagerLike } from "../providers/AuthProvider";
-import { vi } from "vitest";
+import { render, screen, act } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import React from 'react';
+import { vi } from 'vitest';
+
+import { useAuth } from '../hooks/useAuth';
+import { AuthProvider } from '../providers/AuthProvider';
+import type { AuthManagerLike } from '../providers/AuthProvider';
 
 type MockUser = {
   id: string;
@@ -13,24 +14,24 @@ type MockUser = {
 };
 
 function createMockAuthManager(
-  initialState: ReturnType<AuthManagerLike<MockUser>["getState"]>
+  initialState: ReturnType<AuthManagerLike<MockUser>['getState']>
 ): AuthManagerLike<MockUser> & {
-  __emit(state: ReturnType<AuthManagerLike<MockUser>["getState"]>): void;
+  __emit(state: ReturnType<AuthManagerLike<MockUser>['getState']>): void;
 } {
   let state = initialState;
-  const listeners = new Set<
-    (state: ReturnType<AuthManagerLike<MockUser>["getState"]>) => void
-  >();
+  const listeners = new Set<(state: ReturnType<AuthManagerLike<MockUser>['getState']>) => void>();
+
+  const mockTokenStore = {
+    getAccessToken: vi.fn(() => 'mock-token'),
+    setAccessToken: vi.fn(),
+    clear: vi.fn(),
+  };
 
   return {
     getState: vi.fn(() => state),
 
     subscribe: vi.fn(
-      (
-        listener: (
-          state: ReturnType<AuthManagerLike<MockUser>["getState"]>
-        ) => void
-      ) => {
+      (listener: (state: ReturnType<AuthManagerLike<MockUser>['getState']>) => void) => {
         listeners.add(listener);
         return () => listeners.delete(listener);
       }
@@ -38,8 +39,13 @@ function createMockAuthManager(
 
     login: vi.fn().mockResolvedValue(undefined),
     logout: vi.fn(),
-    refresh: vi.fn().mockResolvedValue("renewed-token"),
+    refresh: vi.fn().mockResolvedValue('renewed-token'),
     bootstrapAuth: vi.fn().mockResolvedValue(undefined),
+    getTokenStore: vi.fn(() => mockTokenStore),
+    storeReturnTo: vi.fn(),
+    getReturnTo: vi.fn(() => '/'),
+    consumeReturnTo: vi.fn(() => '/'),
+    clearReturnTo: vi.fn(),
 
     __emit(newState) {
       state = newState;
@@ -48,32 +54,27 @@ function createMockAuthManager(
   };
 }
 
-describe("AuthProvider & useAuth", () => {
+describe('AuthProvider & useAuth', () => {
   /**
    * 1. Context Availability
    * useAuth() should throw if used outside AuthProvider
    */
-  it("throws an error when useAuth is used outside AuthProvider", () => {
+  it('throws an error when useAuth is used outside AuthProvider', () => {
     const TestComponent = () => {
       useAuth();
       return null;
     };
 
-    const consoleError = vi
-      .spyOn(console, "error")
-      .mockImplementation(() => {});
+    const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {});
 
-    expect(() => render(<TestComponent />)).toThrow(
-      /useAuth must be used within an AuthProvider/i
-    );
+    expect(() => render(<TestComponent />)).toThrow(/useAuth must be used within an AuthProvider/i);
 
     consoleError.mockRestore();
   });
 
- 
-  it("calls bootstrapAuth on mount", () => {
+  it('calls bootstrapAuth on mount', () => {
     const mockManager = createMockAuthManager({
-      status: "unauthenticated",
+      status: 'unauthenticated',
       user: null,
     });
 
@@ -86,10 +87,9 @@ describe("AuthProvider & useAuth", () => {
     expect(mockManager.bootstrapAuth).toHaveBeenCalledTimes(1);
   });
 
-  
-  it("updates components when AuthManager emits new state", () => {
+  it('updates components when AuthManager emits new state', () => {
     const mockManager = createMockAuthManager({
-      status: "unauthenticated",
+      status: 'unauthenticated',
       user: null,
     });
 
@@ -98,7 +98,7 @@ describe("AuthProvider & useAuth", () => {
       return (
         <div>
           <span data-testid="status">{status}</span>
-          <span data-testid="username">{user?.name ?? "Guest"}</span>
+          <span data-testid="username">{user?.name ?? 'Guest'}</span>
         </div>
       );
     };
@@ -109,27 +109,26 @@ describe("AuthProvider & useAuth", () => {
       </AuthProvider>
     );
 
-    expect(screen.getByTestId("status").textContent).toBe("unauthenticated");
-    expect(screen.getByTestId("username").textContent).toBe("Guest");
+    expect(screen.getByTestId('status').textContent).toBe('unauthenticated');
+    expect(screen.getByTestId('username').textContent).toBe('Guest');
 
     act(() => {
       mockManager.__emit({
-        status: "authenticated",
-        user: { id: "1", name: "Peace", role: "admin" },
+        status: 'authenticated',
+        user: { id: '1', name: 'Peace', role: 'admin' },
       });
     });
 
-    expect(screen.getByTestId("status").textContent).toBe("authenticated");
-    expect(screen.getByTestId("username").textContent).toBe("Peace");
+    expect(screen.getByTestId('status').textContent).toBe('authenticated');
+    expect(screen.getByTestId('username').textContent).toBe('Peace');
   });
 
-  
-  it("delegates login, logout, and refresh actions to AuthManager", async () => {
+  it('delegates login, logout, and refresh actions to AuthManager', async () => {
     const user = userEvent.setup();
 
     const mockManager = createMockAuthManager({
-      status: "authenticated",
-      user: { id: "1", name: "Peace" },
+      status: 'authenticated',
+      user: { id: '1', name: 'Peace' },
     });
 
     const TestComponent = () => {
@@ -137,7 +136,7 @@ describe("AuthProvider & useAuth", () => {
 
       return (
         <div>
-          <button onClick={() => login({ id: "1", name: "Peace" }, "access-token")}>Login</button>
+          <button onClick={() => login({ id: '1', name: 'Peace' }, 'access-token')}>Login</button>
           <button onClick={() => logout()}>Logout</button>
           <button onClick={() => refresh()}>Refresh</button>
         </div>
@@ -150,24 +149,20 @@ describe("AuthProvider & useAuth", () => {
       </AuthProvider>
     );
 
-    await user.click(screen.getByText("Login"));
-    await user.click(screen.getByText("Logout"));
-    await user.click(screen.getByText("Refresh"));
+    await user.click(screen.getByText('Login'));
+    await user.click(screen.getByText('Logout'));
+    await user.click(screen.getByText('Refresh'));
 
-    expect(mockManager.login).toHaveBeenCalledWith(
-      { id: "1", name: "Peace" },
-      "access-token"
-    );
+    expect(mockManager.login).toHaveBeenCalledWith({ id: '1', name: 'Peace' }, 'access-token');
     expect(mockManager.logout).toHaveBeenCalledTimes(1);
     expect(mockManager.refresh).toHaveBeenCalledTimes(1);
   });
 
-  
-  it("cleans up subscription on unmount", () => {
+  it('cleans up subscription on unmount', () => {
     const unsubscribe = vi.fn();
 
     const base = createMockAuthManager({
-      status: "unauthenticated",
+      status: 'unauthenticated',
       user: null,
     });
 

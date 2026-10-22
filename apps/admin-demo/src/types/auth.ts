@@ -9,6 +9,6 @@ export interface AuthResponse {
   status?: number;
   data: {
     accessToken: string;
-    user: User
+    user: User;
   };
 }

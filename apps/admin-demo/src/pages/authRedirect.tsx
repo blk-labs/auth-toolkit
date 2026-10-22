@@ -1,22 +1,26 @@
-import { useAuth } from "@blk-auth-toolkit/react";
-import { PageLoader } from "../components/Loader";
-import { Navigate } from "react-router-dom";
+import { useAuth, useHasRole, type AuthUser } from '@auth-toolkit/react';
+import { Navigate } from 'react-router-dom';
+
+import { PageLoader } from '../components/Loader';
 
 export default function AuthRedirect() {
-  const { user, status } = useAuth<User>();
+  const { user, status } = useAuth<AuthUser>();
+  const checkRole = useHasRole();
 
 
-  if(status === "loading"){
-    return <PageLoader />
+  console.log('user:', user, 'checkRole admin:', checkRole('admin'));
+
+  if (status === 'loading') {
+    return <PageLoader />;
   }
 
   if (!user) {
-    return <Navigate to={"/login"} replace />;
+    return <Navigate to={'/login'} replace />;
   }
 
-  if (user.role === "admin") {
-    return <Navigate to={"/admin"} replace />;
+  if (checkRole('admin')) {
+    return <Navigate to={'/admin'} replace />;
   }
 
-  return <Navigate to={"/user"} replace />;
+  // return <Navigate to={'/'} replace />;
 }

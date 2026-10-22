@@ -1,8 +1,4 @@
-export type AuthStatus =
-  | "unknown"
-  | "loading"
-  | "authenticated"
-  | "unauthenticated";
+export type AuthStatus = 'unknown' | 'loading' | 'authenticated' | 'unauthenticated';
 
 export interface AuthState<User = unknown> {
   status: AuthStatus;

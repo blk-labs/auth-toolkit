@@ -7,9 +7,16 @@
     "apps/*"
   ],
   "scripts": {
-    "build": "npm run build -w @auth-toolkit/core && npm run build -w @blk-auth-toolkit/react",
-    "test": "npm test -ws --if-present",
-    "test:core": "npm test -w @auth-toolkit/core"
+    "build": "npm run build -w @auth-toolkit/core && npm run build -w @auth-toolkit/react",
+    "test": "npm run test -w @auth-toolkit/core && npm run test -w @auth-toolkit/react",
+    "test:core": "npm test -w @auth-toolkit/core",
+    "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
+    "lint:fix": "eslint . --ext .ts,.tsx,.js,.jsx --fix",
+    "format": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md,css}\"",
+    "format:fix": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md,css}\"",
+    "typecheck": "npm run typecheck -ws --if-present",
+    "docs": "typedoc --tsconfig packages/core/tsconfig.json --plugin typedoc-plugin-markdown --out docs/api packages/core/src/index.ts packages/react/src/index.ts",
+    "ci": "npm run typecheck && npm run lint && npm run format && npm run build && npm run test"
   },
   "description": "",
   "repository": {
@@ -25,8 +32,20 @@
   "homepage": "https://github.com/blk-labs/auth-toolkit#readme",
   "devDependencies": {
     "@types/node": "^25.5.2",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "eslint": "^9.0.0",
+    "eslint-config-prettier": "^10.0.0",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-jsx-a11y": "^6.10.0",
+    "eslint-plugin-react": "^7.37.0",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "prettier": "^3.3.0",
     "tsup": "^8.5.1",
+    "typedoc": "^0.28.20",
+    "typedoc-plugin-markdown": "^4.14.1",
     "typescript": "^6.0.2",
+    "typescript-eslint": "^8.0.0",
     "vitest": "^1.6.1"
   },
   "dependencies": {

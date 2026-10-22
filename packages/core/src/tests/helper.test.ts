@@ -2,6 +2,7 @@
  * @vitest-environment jsdom
  */
 import { describe, it, expect, beforeEach, vi } from 'vitest';
+
 import { setReturnTo, getReturnTo, clearReturnTo } from '../utils/helper.js';
 
 describe('Redirect Helpers', () => {
@@ -27,12 +28,8 @@ describe('Redirect Helpers', () => {
 
   it('should reject unsafe external URLs and fallback to "/"', () => {
     const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
-    
-    const unsafePaths = [
-      'https://malicious-site.com',
-      'http://attacker.org/login',
-      '//evil.com',
-    ];
+
+    const unsafePaths = ['https://malicious-site.com', 'http://attacker.org/login', '//evil.com'];
 
     unsafePaths.forEach((path) => {
       setReturnTo(path);

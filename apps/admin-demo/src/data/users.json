@@ -40,7 +40,12 @@
     "active_sessions": 1,
     "security_log": [
       { "title": "Signed in successfully", "detail": "Firefox on Linux", "time": "1 day ago", "color": "mint" },
-      { "title": "Two-factor enabled", "detail": "Authenticator app configured", "time": "2 weeks ago", "color": "lilac" },
+      {
+        "title": "Two-factor enabled",
+        "detail": "Authenticator app configured",
+        "time": "2 weeks ago",
+        "color": "lilac"
+      },
       { "title": "Failed login attempt", "detail": "Incorrect password", "time": "1 month ago", "color": "coral" }
     ]
   },
@@ -86,7 +91,12 @@
     "security_log": [
       { "title": "Signed in successfully", "detail": "Chrome on Windows", "time": "2 days ago", "color": "mint" },
       { "title": "Profile updated", "detail": "Changed display name", "time": "1 week ago", "color": "lilac" },
-      { "title": "Session expired", "detail": "Automatic logout after 30 days", "time": "2 weeks ago", "color": "yellow" }
+      {
+        "title": "Session expired",
+        "detail": "Automatic logout after 30 days",
+        "time": "2 weeks ago",
+        "color": "yellow"
+      }
     ]
   },
   {
@@ -148,5 +158,27 @@
       { "title": "Account created", "detail": "Welcome to the platform", "time": "2 weeks ago", "color": "lilac" },
       { "title": "First login", "detail": "Completed onboarding", "time": "2 weeks ago", "color": "mint" }
     ]
+  },
+  {
+    "id": "usr-011",
+    "name": "Admin User",
+    "email": "admin@mail.com",
+    "password": "password123",
+    "role": "admin",
+    "created_at": "2026-10-22T00:00:00Z",
+    "last_login": null,
+    "active_sessions": 0,
+    "security_log": []
+  },
+  {
+    "id": "usr-012",
+    "name": "Member User",
+    "email": "member@mail.com",
+    "password": "password123",
+    "role": "member",
+    "created_at": "2026-10-22T00:00:00Z",
+    "last_login": null,
+    "active_sessions": 0,
+    "security_log": []
   }
 ]

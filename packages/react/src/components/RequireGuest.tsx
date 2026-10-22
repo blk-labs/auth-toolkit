@@ -1,11 +1,12 @@
-"use client";
+'use client';
 
-import React, { useEffect } from "react";
-import { useAuth } from "../hooks/useAuth";
-import { navigate, getCurrentPath } from "../utils/navigation";
+import type React from 'react';
+import { useEffect } from 'react';
+
+import { useAuth } from '../hooks/useAuth';
+import { navigate, getCurrentPath } from '../utils/navigation';
 
 export interface RequireGuestProps {
-  
   children: React.ReactNode;
 
   redirectTo?: string;
@@ -32,13 +33,13 @@ export interface RequireGuestProps {
  */
 export function RequireGuest({
   children,
-  redirectTo = "/dashboard",
+  redirectTo = '/dashboard',
   loading = null,
 }: RequireGuestProps): React.ReactElement | null {
   const { user, status } = useAuth();
 
-  const isAuthenticated = status === "authenticated" && user !== null;
-  const isLoading = status === "loading" || status === "unknown";
+  const isAuthenticated = status === 'authenticated' && user !== null;
+  const isLoading = status === 'loading' || status === 'unknown';
 
   useEffect(() => {
     if (isLoading) {
@@ -49,8 +50,8 @@ export function RequireGuest({
       const currentPath = getCurrentPath();
       const isOnTargetPage =
         currentPath === redirectTo ||
-        currentPath === redirectTo + "/" ||
-        currentPath.startsWith(redirectTo + "?");
+        currentPath === redirectTo + '/' ||
+        currentPath.startsWith(redirectTo + '?');
 
       if (!isOnTargetPage) {
         navigate(redirectTo);

@@ -1,4 +1,4 @@
-import type {  CanFunction, HasRoleFunction, HasAnyRoleFunction } from "./types/index.js";
+import type { CanFunction, HasRoleFunction, HasAnyRoleFunction } from './types/index.js';
 
 export const can: CanFunction = (user, action, resource, resolver) => {
   if (!user) return false;

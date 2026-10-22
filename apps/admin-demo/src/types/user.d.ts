@@ -1,9 +1,9 @@
-declare type User  = {
+declare type User = {
   id: string;
   name: string;
   email: string;
   password?: string;
-  role: "admin" | "member";
+  role: 'admin' | 'member';
   created_at: string;
   last_login?: string;
   active_sessions: number;
@@ -11,6 +11,6 @@ declare type User  = {
     title: string;
     detail: string;
     time: string;
-    color: "mint" | "lilac" | "yellow" | "coral";
+    color: 'mint' | 'lilac' | 'yellow' | 'coral';
   }>;
 };

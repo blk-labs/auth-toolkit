@@ -1,10 +1,7 @@
 import type { HttpHandler } from 'msw';
-import { loginHandler } from './login';
-import { sessionHandler } from './session';
-import { refreshHandler } from './refresh';
 
-export const handlers: HttpHandler[] = [
-  loginHandler,
-  sessionHandler,
-  refreshHandler
-];
+import { loginHandler } from './login';
+import { refreshHandler } from './refresh';
+import { sessionHandler } from './session';
+
+export const handlers: HttpHandler[] = [loginHandler, sessionHandler, refreshHandler];
